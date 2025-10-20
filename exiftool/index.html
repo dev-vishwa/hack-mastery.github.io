@@ -9,25 +9,25 @@
       
       
       
-        <link rel="prev" href="../use-hashcat/">
+        <link rel="prev" href="..">
       
       
-        <link rel="next" href="../use-john/">
+        <link rel="next" href="../exploit-helper/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
     
     
       
-        <title>Hydra Usage - OSCP Prep Mastery</title>
+        <title>Exiftool - OSCP Prep Mastery</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hydra-usage" class="md-skip">
+        <a href="#exif-tool-stuff" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="OSCP Prep Mastery" class="md-header__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+    <a href=".." title="OSCP Prep Mastery" class="md-header__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hydra Usage
+              Exiftool
             
           </span>
         </div>
@@ -212,7 +212,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="OSCP Prep Mastery" class="md-nav__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+    <a href=".." title="OSCP Prep Mastery" class="md-nav__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -230,7 +230,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -249,10 +249,30 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../exiftool/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Exiftool
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -263,6 +283,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exif-tool-stuff" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exif Tool stuff
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Exif Tool stuff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -274,7 +336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../exploit-helper/" class="md-nav__link">
+      <a href="../exploit-helper/" class="md-nav__link">
         
   
   
@@ -296,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../helpfull-tips/" class="md-nav__link">
+      <a href="../helpfull-tips/" class="md-nav__link">
         
   
   
@@ -318,7 +380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../init-enum/" class="md-nav__link">
+      <a href="../init-enum/" class="md-nav__link">
         
   
   
@@ -340,7 +402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ligolo/" class="md-nav__link">
+      <a href="../ligolo/" class="md-nav__link">
         
   
   
@@ -362,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../takeaway/" class="md-nav__link">
+      <a href="../takeaway/" class="md-nav__link">
         
   
   
@@ -384,7 +446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tmux/" class="md-nav__link">
+      <a href="../tmux/" class="md-nav__link">
         
   
   
@@ -444,7 +506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/AD-Enumeration/" class="md-nav__link">
+      <a href="../AD/AD-Enumeration/" class="md-nav__link">
         
   
   
@@ -467,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/add-user-to-group/" class="md-nav__link">
+      <a href="../AD/add-user-to-group/" class="md-nav__link">
         
   
   
@@ -490,7 +552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/bloodhound/" class="md-nav__link">
+      <a href="../AD/bloodhound/" class="md-nav__link">
         
   
   
@@ -513,7 +575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/data-issues/" class="md-nav__link">
+      <a href="../AD/data-issues/" class="md-nav__link">
         
   
   
@@ -536,7 +598,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/dcsync/" class="md-nav__link">
+      <a href="../AD/dcsync/" class="md-nav__link">
         
   
   
@@ -559,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/force-change-password/" class="md-nav__link">
+      <a href="../AD/force-change-password/" class="md-nav__link">
         
   
   
@@ -582,7 +644,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/generate-ntlm/" class="md-nav__link">
+      <a href="../AD/generate-ntlm/" class="md-nav__link">
         
   
   
@@ -605,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/gpo/" class="md-nav__link">
+      <a href="../AD/gpo/" class="md-nav__link">
         
   
   
@@ -628,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/inital-enum/" class="md-nav__link">
+      <a href="../AD/inital-enum/" class="md-nav__link">
         
   
   
@@ -651,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/ldap-queries/" class="md-nav__link">
+      <a href="../AD/ldap-queries/" class="md-nav__link">
         
   
   
@@ -674,7 +736,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/ntlm/" class="md-nav__link">
+      <a href="../AD/ntlm/" class="md-nav__link">
         
   
   
@@ -697,7 +759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../AD/smb-hash-theft/" class="md-nav__link">
+      <a href="../AD/smb-hash-theft/" class="md-nav__link">
         
   
   
@@ -765,7 +827,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Exploits/search/" class="md-nav__link">
+      <a href="../Exploits/search/" class="md-nav__link">
         
   
   
@@ -833,7 +895,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/1-priv-esc-methodology-linux/" class="md-nav__link">
+      <a href="../Linux/1-priv-esc-methodology-linux/" class="md-nav__link">
         
   
   
@@ -856,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/docker/" class="md-nav__link">
+      <a href="../Linux/docker/" class="md-nav__link">
         
   
   
@@ -879,7 +941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/linux-priv-esc-permissions/" class="md-nav__link">
+      <a href="../Linux/linux-priv-esc-permissions/" class="md-nav__link">
         
   
   
@@ -902,7 +964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/linux-priv-esc-python/" class="md-nav__link">
+      <a href="../Linux/linux-priv-esc-python/" class="md-nav__link">
         
   
   
@@ -925,7 +987,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/network/" class="md-nav__link">
+      <a href="../Linux/network/" class="md-nav__link">
         
   
   
@@ -948,7 +1010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/passwd/" class="md-nav__link">
+      <a href="../Linux/passwd/" class="md-nav__link">
         
   
   
@@ -971,7 +1033,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/reverse-shell/" class="md-nav__link">
+      <a href="../Linux/reverse-shell/" class="md-nav__link">
         
   
   
@@ -994,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/smb/" class="md-nav__link">
+      <a href="../Linux/smb/" class="md-nav__link">
         
   
   
@@ -1017,7 +1079,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/using-curl/" class="md-nav__link">
+      <a href="../Linux/using-curl/" class="md-nav__link">
         
   
   
@@ -1040,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Linux/using-tcpdump/" class="md-nav__link">
+      <a href="../Linux/using-tcpdump/" class="md-nav__link">
         
   
   
@@ -1108,7 +1170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Network%20Enumeration/Linux-Priv-Esc-Process/" class="md-nav__link">
+      <a href="../Network%20Enumeration/Linux-Priv-Esc-Process/" class="md-nav__link">
         
   
   
@@ -1131,7 +1193,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Network%20Enumeration/ftp-fuzzing/" class="md-nav__link">
+      <a href="../Network%20Enumeration/ftp-fuzzing/" class="md-nav__link">
         
   
   
@@ -1154,7 +1216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Network%20Enumeration/nmap-scanning/" class="md-nav__link">
+      <a href="../Network%20Enumeration/nmap-scanning/" class="md-nav__link">
         
   
   
@@ -1177,7 +1239,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Network%20Enumeration/snmp-fuzzing/" class="md-nav__link">
+      <a href="../Network%20Enumeration/snmp-fuzzing/" class="md-nav__link">
         
   
   
@@ -1245,7 +1307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Other%20Resources%20Notes/linux-priv-esc/" class="md-nav__link">
+      <a href="../Other%20Resources%20Notes/linux-priv-esc/" class="md-nav__link">
         
   
   
@@ -1268,7 +1330,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Other%20Resources%20Notes/windows-privilege-escalation/" class="md-nav__link">
+      <a href="../Other%20Resources%20Notes/windows-privilege-escalation/" class="md-nav__link">
         
   
   
@@ -1295,20 +1357,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
         
           
           <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
@@ -1324,7 +1384,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_14">
             <span class="md-nav__icon md-icon"></span>
             Password Fuzzing
@@ -1338,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../default-passwords/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/default-passwords/" class="md-nav__link">
         
   
   
@@ -1361,7 +1421,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../emum/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/emum/" class="md-nav__link">
         
   
   
@@ -1384,7 +1444,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../use-hashcat/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/use-hashcat/" class="md-nav__link">
         
   
   
@@ -1404,32 +1464,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Hydra Usage
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../Password%20Fuzzing/use-hydra/" class="md-nav__link">
         
   
   
@@ -1440,35 +1478,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#ftp" class="md-nav__link">
-    <span class="md-ellipsis">
-      FTP
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1481,7 +1490,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../use-john/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/use-john/" class="md-nav__link">
         
   
   
@@ -1504,7 +1513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../using-burp/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/using-burp/" class="md-nav__link">
         
   
   
@@ -1527,7 +1536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../web-passwords/" class="md-nav__link">
+      <a href="../Password%20Fuzzing/web-passwords/" class="md-nav__link">
         
   
   
@@ -1595,7 +1604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/git/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/git/" class="md-nav__link">
         
   
   
@@ -1618,7 +1627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/laravel/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/laravel/" class="md-nav__link">
         
   
   
@@ -1641,7 +1650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-111-portmapper/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-111-portmapper/" class="md-nav__link">
         
   
   
@@ -1664,7 +1673,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-113/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-113/" class="md-nav__link">
         
   
   
@@ -1687,7 +1696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-161-snmp/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-161-snmp/" class="md-nav__link">
         
   
   
@@ -1710,7 +1719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-21-ftp/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-21-ftp/" class="md-nav__link">
         
   
   
@@ -1733,7 +1742,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-22-ssh/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-22-ssh/" class="md-nav__link">
         
   
   
@@ -1756,7 +1765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-25-smtp/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-25-smtp/" class="md-nav__link">
         
   
   
@@ -1779,7 +1788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-3128-squid/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-3128-squid/" class="md-nav__link">
         
   
   
@@ -1802,7 +1811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-3389-rdp/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-3389-rdp/" class="md-nav__link">
         
   
   
@@ -1825,7 +1834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-445-smb/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-445-smb/" class="md-nav__link">
         
   
   
@@ -1848,7 +1857,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-49152-rpcclient/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-49152-rpcclient/" class="md-nav__link">
         
   
   
@@ -1871,7 +1880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Ports%20%26%20Applications/port-53-dns/" class="md-nav__link">
+      <a href="../Ports%20%26%20Applications/port-53-dns/" class="md-nav__link">
         
   
   
@@ -1939,7 +1948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Usernames/enum/" class="md-nav__link">
+      <a href="../Usernames/enum/" class="md-nav__link">
         
   
   
@@ -2007,7 +2016,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/apache-tomcat-fuzzing/" class="md-nav__link">
+      <a href="../Web%20Applications/apache-tomcat-fuzzing/" class="md-nav__link">
         
   
   
@@ -2030,7 +2039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/automate-enum/" class="md-nav__link">
+      <a href="../Web%20Applications/automate-enum/" class="md-nav__link">
         
   
   
@@ -2053,7 +2062,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/fuzzing-php/" class="md-nav__link">
+      <a href="../Web%20Applications/fuzzing-php/" class="md-nav__link">
         
   
   
@@ -2076,7 +2085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/mysql-fuzzing/" class="md-nav__link">
+      <a href="../Web%20Applications/mysql-fuzzing/" class="md-nav__link">
         
   
   
@@ -2099,7 +2108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/postgre-fuzzing/" class="md-nav__link">
+      <a href="../Web%20Applications/postgre-fuzzing/" class="md-nav__link">
         
   
   
@@ -2122,7 +2131,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/sql-injection-fuzzing/" class="md-nav__link">
+      <a href="../Web%20Applications/sql-injection-fuzzing/" class="md-nav__link">
         
   
   
@@ -2145,7 +2154,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/web-fuzzing-with-ffuf/" class="md-nav__link">
+      <a href="../Web%20Applications/web-fuzzing-with-ffuf/" class="md-nav__link">
         
   
   
@@ -2168,7 +2177,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Applications/wordpress/" class="md-nav__link">
+      <a href="../Web%20Applications/wordpress/" class="md-nav__link">
         
   
   
@@ -2236,7 +2245,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Vulneratbilites/cmd-injection/" class="md-nav__link">
+      <a href="../Web%20Vulneratbilites/cmd-injection/" class="md-nav__link">
         
   
   
@@ -2259,7 +2268,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Vulneratbilites/lfi/" class="md-nav__link">
+      <a href="../Web%20Vulneratbilites/lfi/" class="md-nav__link">
         
   
   
@@ -2282,7 +2291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Vulneratbilites/sql-injection/" class="md-nav__link">
+      <a href="../Web%20Vulneratbilites/sql-injection/" class="md-nav__link">
         
   
   
@@ -2305,7 +2314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Web%20Vulneratbilites/xss/" class="md-nav__link">
+      <a href="../Web%20Vulneratbilites/xss/" class="md-nav__link">
         
   
   
@@ -2373,7 +2382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/1-priv-esc/" class="md-nav__link">
+      <a href="../Windows/1-priv-esc/" class="md-nav__link">
         
   
   
@@ -2396,7 +2405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/av-bypass/" class="md-nav__link">
+      <a href="../Windows/av-bypass/" class="md-nav__link">
         
   
   
@@ -2419,7 +2428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/download-file/" class="md-nav__link">
+      <a href="../Windows/download-file/" class="md-nav__link">
         
   
   
@@ -2442,7 +2451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/file-permissions/" class="md-nav__link">
+      <a href="../Windows/file-permissions/" class="md-nav__link">
         
   
   
@@ -2465,7 +2474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/kernel-exploit/" class="md-nav__link">
+      <a href="../Windows/kernel-exploit/" class="md-nav__link">
         
   
   
@@ -2488,7 +2497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/mimkatz/" class="md-nav__link">
+      <a href="../Windows/mimkatz/" class="md-nav__link">
         
   
   
@@ -2511,7 +2520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/powershell/" class="md-nav__link">
+      <a href="../Windows/powershell/" class="md-nav__link">
         
   
   
@@ -2534,7 +2543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/reverse-shell/" class="md-nav__link">
+      <a href="../Windows/reverse-shell/" class="md-nav__link">
         
   
   
@@ -2557,7 +2566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/service-abuse/" class="md-nav__link">
+      <a href="../Windows/service-abuse/" class="md-nav__link">
         
   
   
@@ -2580,7 +2589,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/uac/" class="md-nav__link">
+      <a href="../Windows/uac/" class="md-nav__link">
         
   
   
@@ -2603,7 +2612,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/windows-shell-help/" class="md-nav__link">
+      <a href="../Windows/windows-shell-help/" class="md-nav__link">
         
   
   
@@ -2626,7 +2635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/winpeas/" class="md-nav__link">
+      <a href="../Windows/winpeas/" class="md-nav__link">
         
   
   
@@ -2687,7 +2696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/Groups/server-operator-group/" class="md-nav__link">
+      <a href="../Windows/Groups/server-operator-group/" class="md-nav__link">
         
   
   
@@ -2756,7 +2765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/Privileges/SeBackupPrivilege/" class="md-nav__link">
+      <a href="../Windows/Privileges/SeBackupPrivilege/" class="md-nav__link">
         
   
   
@@ -2779,7 +2788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../Windows/Privileges/SeImporsornatePriv/" class="md-nav__link">
+      <a href="../Windows/Privileges/SeImporsornatePriv/" class="md-nav__link">
         
   
   
@@ -2827,8 +2836,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -2837,11 +2844,26 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ftp" class="md-nav__link">
+  <a href="#exif-tool-stuff" class="md-nav__link">
     <span class="md-ellipsis">
-      FTP
+      Exif Tool stuff
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Exif Tool stuff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2861,10 +2883,11 @@
 
 
 
-<h1 id="hydra-usage">Hydra Usage</h1>
-<h2 id="ftp">FTP</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hydra<span class="w"> </span>-C<span class="w"> </span>/usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt<span class="w"> </span><span class="m">192</span>.168.168.52<span class="w"> </span>ftp
-</span></code></pre></div>
+  <h1>Exiftool</h1>
+
+<h2 id="exif-tool-stuff">Exif Tool stuff</h2>
+<h3 id="_1"></h3>
+<p>exiftool -a -u brochure.pdf </p>
 
 
 
@@ -2913,10 +2936,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   </body>

